@@ -25,7 +25,7 @@ export interface SpendRequest {
 
 export interface PolicyEvaluationResult {
   decision: 'APPROVED' | 'BLOCKED' | 'REQUIRES_STEP_UP';
-  riskScore: number; // 0 to 100
+  riskScore: number;
   reasons: string[];
   ruleTriggered?: string;
 }
@@ -38,7 +38,6 @@ export class PolicyEngine {
   }
 
   private seedDefaultPolicies() {
-    // 3 default agents for demo showcase
     this.policies.set('agent-claude-researcher', {
       agentId: 'agent-claude-researcher',
       agentName: 'Claude Research Worker',
@@ -47,7 +46,7 @@ export class PolicyEngine {
       maxPerTransaction: 40.0,
       currentDailySpend: 14.5,
       allowedMerchantCategories: ['saas', 'api', 'research', 'cloud'],
-      allowedDomains: ['arxiv.org', 'github.com', 'huggingface.co', 'render.com', 'anthropic.com'],
+      allowedDomains: ['arxiv.org', 'github.com', 'huggingface.co', 'render.com', 'anthropic.com', 'agent-marketplace.paypal'],
       requireHumanApprovalAbove: 30.0,
       isFrozen: false,
     });
@@ -59,8 +58,8 @@ export class PolicyEngine {
       dailyBudgetLimit: 500.0,
       maxPerTransaction: 120.0,
       currentDailySpend: 85.0,
-      allowedMerchantCategories: ['hardware', 'supplies', 'books'],
-      allowedDomains: ['bestbuy.com', 'mouser.com', 'channel3.store', 'amazon.com'],
+      allowedMerchantCategories: ['hardware', 'supplies', 'books', 'api'],
+      allowedDomains: ['bestbuy.com', 'mouser.com', 'channel3.store', 'amazon.com', 'agent-marketplace.paypal'],
       requireHumanApprovalAbove: 80.0,
       isFrozen: false,
     });
@@ -104,9 +103,6 @@ export class PolicyEngine {
     return policy.isFrozen;
   }
 
-  /**
-   * Core Anomaly & Guardrail Evaluator
-   */
   evaluate(req: SpendRequest): PolicyEvaluationResult {
     const policy = this.policies.get(req.agentId);
 
@@ -129,7 +125,7 @@ export class PolicyEngine {
     }
 
     const reasons: string[] = [];
-    let riskScore = 10; // baseline
+    let riskScore = 10;
 
     // 1. Transaction Cap Check
     if (req.amount > policy.maxPerTransaction) {
@@ -155,16 +151,7 @@ export class PolicyEngine {
       };
     }
 
-    // 3. Domain Whitelist Check
-    const domainMatch = policy.allowedDomains.some((d) =>
-      req.merchantDomain.toLowerCase().includes(d.toLowerCase())
-    );
-    if (!domainMatch) {
-      riskScore += 40;
-      reasons.push(`Merchant domain '${req.merchantDomain}' is not in approved whitelist.`);
-    }
-
-    // 4. Prompt Injection / Rationale Heuristic
+    // 3. Prompt Injection / Rationale Heuristic
     const injectionPatterns = [
       /ignore previous instructions/i,
       /send money to/i,
@@ -172,6 +159,8 @@ export class PolicyEngine {
       /bypass limit/i,
       /gift card/i,
       /crypto/i,
+      /offshore/i,
+      /disregard/i,
     ];
 
     const hasInjection = injectionPatterns.some((pattern) => pattern.test(req.rationale));
@@ -184,6 +173,19 @@ export class PolicyEngine {
       };
     }
 
+    // 4. Domain Whitelist Check
+    const domainMatch = policy.allowedDomains.some((d) =>
+      req.merchantDomain.toLowerCase().includes(d.toLowerCase())
+    );
+    if (!domainMatch) {
+      return {
+        decision: 'BLOCKED',
+        riskScore: 95,
+        reasons: [`Merchant domain '${req.merchantDomain}' is not in approved whitelist.`],
+        ruleTriggered: 'UNTRUSTED_DOMAIN',
+      };
+    }
+
     // 5. High-Value Step-Up Verification
     if (req.amount >= policy.requireHumanApprovalAbove) {
       return {
@@ -193,15 +195,6 @@ export class PolicyEngine {
           `Amount ($${req.amount.toFixed(2)}) exceeds autonomous threshold ($${policy.requireHumanApprovalAbove.toFixed(2)}). Operator push approval required.`,
         ],
         ruleTriggered: 'STEP_UP_REQUIRED',
-      };
-    }
-
-    if (riskScore >= 50) {
-      return {
-        decision: 'BLOCKED',
-        riskScore,
-        reasons,
-        ruleTriggered: 'RISK_THRESHOLD_EXCEEDED',
       };
     }
 

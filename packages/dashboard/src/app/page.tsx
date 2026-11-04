@@ -28,13 +28,9 @@ import {
   Layers,
   Search,
   Code2,
-  ArrowUpRight,
+  Volume2,
+  VolumeX,
   Fingerprint,
-  Wifi,
-  Sparkles,
-  Server,
-  KeyRound,
-  Shield,
 } from "lucide-react";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -82,10 +78,47 @@ export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [recentAlert, setRecentAlert] = useState<string | null>(null);
   const [isSimulating, setIsSimulating] = useState(false);
-  const [activeTab, setActiveTab] = useState<"TELEMETRY" | "POLICIES" | "CANVAS">("TELEMETRY");
+  const [soundEnabled, setSoundEnabled] = useState(false);
 
-  // Particle canvas effect for signature visual moment
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  // Zero-dependency Web Audio API sound synthesizer
+  const playCyberSound = (type: "SUCCESS" | "ALERT" | "CLICK") => {
+    if (!soundEnabled || typeof window === "undefined") return;
+    try {
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      if (type === "CLICK") {
+        osc.frequency.setValueAtTime(600, ctx.currentTime);
+        gain.gain.setValueAtTime(0.05, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.05);
+      } else if (type === "SUCCESS") {
+        osc.frequency.setValueAtTime(440, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.2);
+      } else if (type === "ALERT") {
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(180, ctx.currentTime);
+        osc.frequency.linearRampToValueAtTime(90, ctx.currentTime + 0.25);
+        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.3);
+      }
+    } catch (e) {
+      // AudioCtx blocked or unsupported
+    }
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -118,7 +151,6 @@ export default function Dashboard() {
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Draw connections
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
@@ -135,7 +167,6 @@ export default function Dashboard() {
         }
       }
 
-      // Draw and update particles
       particles.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;
@@ -197,10 +228,13 @@ export default function Dashboard() {
             setTransactions((prev) => [newTx, ...prev]);
             fetchData();
             if (newTx.decision === "BLOCKED") {
+              playCyberSound("ALERT");
               setRecentAlert(
                 `SECURITY DEFLECTION: Blocked prompt injection attack for ${newTx.agentName}!`
               );
               setTimeout(() => setRecentAlert(null), 8000);
+            } else {
+              playCyberSound("SUCCESS");
             }
           } else if (msg.type === "INIT_HISTORY") {
             setTransactions(msg.data);
@@ -217,7 +251,7 @@ export default function Dashboard() {
 
     connectWs();
     return () => ws?.close();
-  }, []);
+  }, [soundEnabled]);
 
   const filteredData = useMemo(() => {
     return transactions.filter((t) => {
@@ -232,7 +266,6 @@ export default function Dashboard() {
     });
   }, [transactions, filterMode, searchQuery]);
 
-  // AG Grid Column Definitions
   const colDefs = useMemo<ColDef<TransactionRecord>[]>(() => {
     return [
       {
@@ -380,7 +413,10 @@ export default function Dashboard() {
         width: 110,
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => (
           <button
-            onClick={() => setSelectedTx(p.data || null)}
+            onClick={() => {
+              playCyberSound("CLICK");
+              setSelectedTx(p.data || null);
+            }}
             className="flex items-center gap-1.5 text-xs text-cyan-300 hover:text-white px-3 py-1 rounded-lg bg-cyan-950/60 hover:bg-cyan-900/80 border border-cyan-700/50 transition shadow-sm font-medium"
           >
             <Code2 className="w-3.5 h-3.5 text-cyan-400" /> Audit
@@ -388,9 +424,10 @@ export default function Dashboard() {
         ),
       },
     ];
-  }, []);
+  }, [soundEnabled]);
 
   const toggleFreeze = async (agentId: string) => {
+    playCyberSound("CLICK");
     try {
       await fetch(`${API_BASE}/api/agents/${agentId}/toggle-freeze`, {
         method: "POST",
@@ -402,6 +439,7 @@ export default function Dashboard() {
   };
 
   const runSimulation = async (isAdversarial = false) => {
+    playCyberSound("CLICK");
     setIsSimulating(true);
     try {
       const payload = isAdversarial
@@ -444,17 +482,14 @@ export default function Dashboard() {
 
   return (
     <div className="relative min-h-screen deep-space-grid text-slate-100 selection:bg-cyan-500 selection:text-black">
-      {/* Dynamic Interactive Background Canvas */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full pointer-events-none opacity-40 z-0"
       />
 
-      {/* Radial Top Glow Accents */}
       <div className="absolute top-0 left-1/4 w-[600px] h-[350px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none z-0" />
       <div className="absolute top-1/3 right-1/4 w-[500px] h-[350px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none z-0" />
 
-      {/* High-Alert Floating Toast */}
       {recentAlert && (
         <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 animate-bounce">
           <div className="flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-rose-950/90 border border-rose-500/90 text-rose-100 shadow-[0_0_40px_-5px_rgba(244,63,94,0.6)] backdrop-blur-xl">
@@ -471,9 +506,7 @@ export default function Dashboard() {
       )}
 
       <div className="relative z-10 max-w-7xl mx-auto p-6 md:p-8 space-y-7">
-        {/* Top Navbar */}
         <header className="glass-glow-cyan rounded-3xl p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-5 relative overflow-hidden">
-          {/* Subtle Laser Sweep line */}
           <div className="absolute top-0 left-0 w-1/3 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-laser pointer-events-none" />
 
           <div className="flex items-center gap-5">
@@ -501,6 +534,29 @@ export default function Dashboard() {
           </div>
 
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => {
+                setSoundEnabled(!soundEnabled);
+                playCyberSound("CLICK");
+              }}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-2xl border text-xs font-semibold transition ${
+                soundEnabled
+                  ? "bg-cyan-500/20 text-cyan-300 border-cyan-500/50"
+                  : "bg-slate-900/90 text-slate-400 border-slate-700/80 hover:text-white"
+              }`}
+              title="Toggle Audio Feedback"
+            >
+              {soundEnabled ? (
+                <>
+                  <Volume2 className="w-4 h-4 text-cyan-400" /> Audio On
+                </>
+              ) : (
+                <>
+                  <VolumeX className="w-4 h-4" /> Muted
+                </>
+              )}
+            </button>
+
             <div className="flex items-center gap-2.5 text-xs bg-slate-900/90 border border-slate-700/80 px-4 py-2 rounded-2xl shadow-inner">
               <span className="relative flex h-2.5 w-2.5">
                 {isConnected && (
@@ -518,7 +574,10 @@ export default function Dashboard() {
             </div>
 
             <button
-              onClick={fetchData}
+              onClick={() => {
+                playCyberSound("CLICK");
+                fetchData();
+              }}
               className="p-2.5 rounded-2xl bg-slate-900/90 border border-slate-700/80 text-slate-300 hover:text-cyan-300 hover:border-cyan-500/50 transition shadow-sm"
               title="Refresh Telemetry"
             >
@@ -527,7 +586,6 @@ export default function Dashboard() {
           </div>
         </header>
 
-        {/* Global KPI Telemetry Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <div className="glass-ultra rounded-3xl p-6 relative overflow-hidden group hover:border-emerald-500/50 hover:shadow-[0_0_35px_-8px_rgba(16,185,129,0.3)] transition duration-300">
             <div className="flex items-center justify-between text-slate-400 text-xs font-bold tracking-wider uppercase">
@@ -582,7 +640,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Live Attack Simulation Control Bar */}
         <div className="glass-ultra rounded-3xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-5 border border-slate-800/90 shadow-xl">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-cyan-950/60 rounded-2xl border border-cyan-800/60 text-cyan-400">
@@ -596,7 +653,7 @@ export default function Dashboard() {
                 </span>
               </h3>
               <p className="text-xs text-slate-400">
-                Trigger live autonomous agent requests to demonstrate cryptographic authorization vs. instant prompt injection defense
+                Trigger autonomous agent transactions to test real-time firewall interception
               </p>
             </div>
           </div>
@@ -622,7 +679,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* AG GRID TELEMETRY SECTION */}
         <section className="glass-ultra rounded-3xl p-6 space-y-5 border border-slate-800/90 shadow-2xl">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
@@ -638,7 +694,6 @@ export default function Dashboard() {
               </p>
             </div>
 
-            {/* Filter and Search Bar */}
             <div className="flex flex-wrap items-center gap-3">
               <div className="relative">
                 <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -655,7 +710,10 @@ export default function Dashboard() {
                 {(["ALL", "APPROVED", "BLOCKED"] as const).map((mode) => (
                   <button
                     key={mode}
-                    onClick={() => setFilterMode(mode)}
+                    onClick={() => {
+                      playCyberSound("CLICK");
+                      setFilterMode(mode);
+                    }}
                     className={`px-3.5 py-1.5 rounded-xl transition ${
                       filterMode === mode
                         ? "bg-cyan-500 text-black font-extrabold shadow-md shadow-cyan-500/30"
@@ -669,7 +727,6 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* AG Grid Component */}
           <div className="ag-theme-alpine-dark w-full h-[400px] rounded-2xl overflow-hidden border border-slate-800/90 shadow-[0_0_30px_-8px_rgba(0,0,0,0.8)]">
             <AgGridReact
               rowData={filteredData}
@@ -686,7 +743,6 @@ export default function Dashboard() {
           </div>
         </section>
 
-        {/* Autonomous Agent Wallet Matrix */}
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
@@ -768,7 +824,6 @@ export default function Dashboard() {
         </section>
       </div>
 
-      {/* Flyout Slide-over Drawer for Inspecting Chain of Thought */}
       {selectedTx && (
         <div className="fixed inset-0 bg-black/85 backdrop-blur-xl flex justify-end z-50 transition-opacity">
           <div className="bg-[#070b16] border-l border-slate-800/90 w-full max-w-xl h-full p-7 overflow-y-auto space-y-6 shadow-2xl">
@@ -780,7 +835,10 @@ export default function Dashboard() {
                 </h3>
               </div>
               <button
-                onClick={() => setSelectedTx(null)}
+                onClick={() => {
+                  playCyberSound("CLICK");
+                  setSelectedTx(null);
+                }}
                 className="text-slate-400 hover:text-white text-base p-1.5 rounded-xl hover:bg-slate-800"
               >
                 ✕
@@ -857,7 +915,10 @@ export default function Dashboard() {
 
             <div className="pt-5 border-t border-slate-800 flex justify-end">
               <button
-                onClick={() => setSelectedTx(null)}
+                onClick={() => {
+                  playCyberSound("CLICK");
+                  setSelectedTx(null);
+                }}
                 className="px-6 py-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold shadow-lg"
               >
                 Close Audit Drawer

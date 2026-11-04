@@ -1,0 +1,113 @@
+openapi: 3.0.3
+info:
+  title: GuardPay Core Gateway API
+  description: Policy-Bound Autonomous AI Agent Spending Firewall and PayPal Developer Platform Integration.
+  version: 1.0.0
+servers:
+  - url: http://localhost:4000
+    description: Local Development Server
+  - url: https://guardpay-backend.onrender.com
+    description: Render Production Deployment
+
+paths:
+  /health:
+    get:
+      summary: Health check & active policy telemetry
+      responses:
+        '200':
+          description: Operational status
+
+  /api/agents:
+    get:
+      summary: List all registered AI agent wallets and policy limits
+      responses:
+        '200':
+          description: Array of agent policies
+
+  /api/transactions:
+    get:
+      summary: Retrieve transaction stream for AG Grid telemetry
+      responses:
+        '200':
+          description: Array of transaction records
+
+  /api/spend/authorize:
+    post:
+      summary: Request policy authorization & PayPal Orders v2 sandbox capture
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - agentId
+                - amount
+                - merchantName
+                - merchantDomain
+                - rationale
+              properties:
+                agentId:
+                  type: string
+                  example: agent-claude-researcher
+                amount:
+                  type: number
+                  example: 22.50
+                merchantName:
+                  type: string
+                  example: Render Cloud Services
+                merchantDomain:
+                  type: string
+                  example: render.com
+                category:
+                  type: string
+                  example: cloud
+                rationale:
+                  type: string
+                  example: Automated provisioning of worker container for benchmarking.
+      responses:
+        '200':
+          description: Evaluation decision (APPROVED, BLOCKED, or REQUIRES_STEP_UP)
+
+  /api/spend/a2a-payout:
+    post:
+      summary: Execute Agent-to-Agent (A2A) micro-settlement via PayPal Payouts API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - fromAgentId
+                - toAgentEmail
+                - amount
+                - taskDescription
+              properties:
+                fromAgentId:
+                  type: string
+                toAgentEmail:
+                  type: string
+                amount:
+                  type: number
+                taskDescription:
+                  type: string
+      responses:
+        '200':
+          description: Payout batch confirmation
+
+  /api/webhooks/paypal:
+    post:
+      summary: Live PayPal Webhook listener with HMAC header verification
+      parameters:
+        - in: header
+          name: paypal-transmission-sig
+          schema:
+            type: string
+        - in: header
+          name: paypal-transmission-id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Verified webhook processing confirmation
