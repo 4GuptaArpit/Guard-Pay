@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #04060A;
+  --foreground: #f8fafc;
+  --accent-paypal: #0079C1;
+  --accent-cyan: #00F0FF;
+  --accent-emerald: #10B981;
+  --accent-crimson: #FF3366;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+  overflow-x: hidden;
+}
+
+/* 3D Deep Space Grid Perspective */
+.deep-space-grid {
+  background-size: 48px 48px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 121, 193, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 121, 193, 0.05) 1px, transparent 1px);
+}
+
+/* Glassmorphism Ultra-Layer */
+.glass-ultra {
+  background: rgba(10, 15, 29, 0.65);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-glow-cyan {
+  background: rgba(8, 14, 28, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  box-shadow: 0 0 45px -10px rgba(0, 240, 255, 0.2);
+}
+
+.glass-glow-emerald {
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 0 35px -8px rgba(16, 185, 129, 0.2);
+}
+
+.glass-glow-crimson {
+  border: 1px solid rgba(255, 51, 102, 0.35);
+  box-shadow: 0 0 40px -8px rgba(255, 51, 102, 0.25);
+}
+
+/* Laser sweep animation across headers */
+@keyframes laser-sweep {
+  0% { transform: translateX(-100%); }
+  50%, 100% { transform: translateX(200%); }
+}
+
+.animate-laser {
+  animation: laser-sweep 4s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* AG Grid Dark Obsidian Theme Override */
+.ag-theme-alpine-dark {
+  --ag-background-color: #060a14;
+  --ag-header-background-color: #0a0f1e;
+  --ag-odd-row-background-color: #060a14;
+  --ag-even-row-background-color: #080d1a;
+  --ag-header-foreground-color: #94a3b8;
+  --ag-foreground-color: #f1f5f9;
+  --ag-border-color: rgba(255, 255, 255, 0.07);
+  --ag-row-hover-color: rgba(0, 240, 255, 0.1);
+  --ag-selected-row-background-color: rgba(0, 121, 193, 0.25);
+  --ag-font-family: inherit;
+  --ag-font-size: 13px;
+  --ag-grid-size: 7px;
+}
+
+.ag-theme-alpine-dark .ag-header-cell-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11px;
+}
+
+.ag-theme-alpine-dark .ag-row {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Shimmer gradient effect */
+.shimmer-text {
+  background: linear-gradient(90deg, #ffffff 0%, #00F0FF 50%, #ffffff 100%);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shine 4s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}

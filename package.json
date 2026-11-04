@@ -1,0 +1,27 @@
+{
+  "name": "guardpay-monorepo",
+  "version": "1.0.0",
+  "description": "Policy-Bound Autonomous AI Agent Wallets with PayPal Developer Platform & AG Grid Telemetry",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:backend": "npm --workspace=backend run dev",
+    "dev:dashboard": "npm --workspace=dashboard run dev",
+    "dev:mcp": "npm --workspace=mcp-server run dev",
+    "dev": "npm run dev:backend",
+    "build": "npm --workspaces run build"
+  },
+  "keywords": [
+    "paypal",
+    "ai-agents",
+    "agentic-commerce",
+    "mcp",
+    "ag-grid",
+    "render",
+    "fintech"
+  ],
+  "author": "GuardPay Team",
+  "license": "MIT"
+}
