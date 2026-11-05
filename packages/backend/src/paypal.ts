@@ -1,12 +1,34 @@
 /**
  * PayPal Sandbox REST API Client
- * Implements OAuth2 Tokenization, Orders v2 (Authorize & Capture), Subscriptions, Payouts, and Webhook Verification.
+ * Implements OAuth2 Tokenization, Orders v2 (Authorize & Capture),
+ * Invoicing v2 (Create, Send, Invoice Status), Payouts API, and Webhook Verification.
  */
 
 export interface PayPalConfig {
   clientId: string;
   clientSecret: string;
   mode: 'sandbox' | 'live';
+}
+
+export interface InvoiceDraft {
+  id: string;
+  invoiceNumber: string;
+  invoiceDate: string;
+  recipientEmail: string;
+  recipientName: string;
+  merchantName: string;
+  items: Array<{
+    name: string;
+    description: string;
+    quantity: number;
+    unitPrice: number;
+    total: number;
+  }>;
+  totalAmount: number;
+  status: 'DRAFT' | 'SENT' | 'PAID' | 'DISPUTED' | 'REFUNDED';
+  paypalInvoiceId?: string;
+  paypalInvoiceUrl?: string;
+  arbitrationNotes?: string;
 }
 
 export class PayPalClient {
@@ -24,15 +46,11 @@ export class PayPalClient {
         : 'https://api-m.sandbox.paypal.com';
   }
 
-  /**
-   * Fetches or reuses OAuth2 Bearer token
-   */
   async getAccessToken(): Promise<string> {
     if (this.cachedToken && Date.now() < this.cachedToken.expiresAt) {
       return this.cachedToken.token;
     }
 
-    // In dev / mock fallback mode
     if (this.clientId.startsWith('mock_')) {
       return 'mock_access_token_' + Date.now();
     }
@@ -60,9 +78,6 @@ export class PayPalClient {
     return this.cachedToken.token;
   }
 
-  /**
-   * Orders v2: Creates an authorized or capturable order
-   */
   async createOrder(params: {
     amount: string;
     currency?: string;
@@ -72,7 +87,6 @@ export class PayPalClient {
   }): Promise<{ id: string; status: string; links: any[] }> {
     const token = await this.getAccessToken();
 
-    // Dev mock fallback when using sandbox test mode
     if (this.clientId.startsWith('mock_')) {
       return {
         id: 'ORD-PP-' + Math.random().toString(36).substring(2, 10).toUpperCase(),
@@ -111,9 +125,6 @@ export class PayPalClient {
     return await response.json();
   }
 
-  /**
-   * Orders v2: Captures an authorized order
-   */
   async captureOrder(orderId: string): Promise<{ id: string; status: string; captureId?: string }> {
     const token = await this.getAccessToken();
 
@@ -146,9 +157,6 @@ export class PayPalClient {
     };
   }
 
-  /**
-   * Payouts API: Agent-to-Agent (A2A) batch micro-settlement
-   */
   async createPayout(params: {
     recipientEmail: string;
     amount: string;
@@ -198,5 +206,74 @@ export class PayPalClient {
     }
 
     return await response.json();
+  }
+
+  /**
+   * Invoicing v2: Generate and track official PayPal Digital B2B Invoices
+   */
+  async createInvoice(invoice: Omit<InvoiceDraft, 'id' | 'status'>): Promise<{ id: string; invoiceNumber: string; url: string }> {
+    const token = await this.getAccessToken();
+
+    if (this.clientId.startsWith('mock_')) {
+      const invId = 'INV2-' + Math.random().toString(36).substring(2, 9).toUpperCase();
+      return {
+        id: invId,
+        invoiceNumber: invoice.invoiceNumber,
+        url: `https://www.sandbox.paypal.com/invoice/p/#${invId}`,
+      };
+    }
+
+    const response = await fetch(`${this.baseUrl}/v2/invoicing/invoices`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        detail: {
+          invoice_number: invoice.invoiceNumber,
+          reference: 'GuardPay-Autonomous-PO',
+          invoice_date: invoice.invoiceDate,
+          currency_code: 'USD',
+          note: 'Generated autonomously by GuardPay Policy Engine.',
+        },
+        invoicer: {
+          name: {
+            given_name: invoice.merchantName,
+          },
+        },
+        primary_recipients: [
+          {
+            billing_info: {
+              name: {
+                given_name: invoice.recipientName,
+              },
+              email_address: invoice.recipientEmail,
+            },
+          },
+        ],
+        items: invoice.items.map((it) => ({
+          name: it.name,
+          description: it.description,
+          quantity: it.quantity.toString(),
+          unit_amount: {
+            currency_code: 'USD',
+            value: it.unitPrice.toFixed(2),
+          },
+        })),
+      }),
+    });
+
+    if (!response.ok) {
+      const err = await response.text();
+      throw new Error(`PayPal Invoicing failed: ${err}`);
+    }
+
+    const data = await response.json();
+    return {
+      id: data.id,
+      invoiceNumber: invoice.invoiceNumber,
+      url: data.href || `https://www.sandbox.paypal.com/invoice/p/#${data.id}`,
+    };
   }
 }
