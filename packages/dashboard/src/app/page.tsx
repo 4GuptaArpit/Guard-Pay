@@ -41,6 +41,10 @@ import {
   AlertTriangle,
   Play,
   RotateCcw,
+  SlidersHorizontal,
+  ChevronRight,
+  Copy,
+  Check,
 } from "lucide-react";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -121,6 +125,7 @@ export default function Dashboard() {
   const [recentAlert, setRecentAlert] = useState<string | null>(null);
   const [isSimulating, setIsSimulating] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // Negotiation Studio State
   const [negoPrompt, setNegoPrompt] = useState("Procure 12 High-Performance AI Workstations with Dual GPUs under $18,000 before Friday");
@@ -146,28 +151,35 @@ export default function Dashboard() {
       gain.connect(ctx.destination);
 
       if (type === "CLICK") {
-        osc.frequency.setValueAtTime(600, ctx.currentTime);
-        gain.gain.setValueAtTime(0.05, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+        osc.frequency.setValueAtTime(650, ctx.currentTime);
+        gain.gain.setValueAtTime(0.04, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
         osc.start();
-        osc.stop(ctx.currentTime + 0.05);
+        osc.stop(ctx.currentTime + 0.04);
       } else if (type === "SUCCESS") {
-        osc.frequency.setValueAtTime(440, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
+        osc.frequency.setValueAtTime(480, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(960, ctx.currentTime + 0.16);
         gain.gain.setValueAtTime(0.08, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
         osc.start();
-        osc.stop(ctx.currentTime + 0.2);
+        osc.stop(ctx.currentTime + 0.22);
       } else if (type === "ALERT") {
         osc.type = "sawtooth";
-        osc.frequency.setValueAtTime(180, ctx.currentTime);
-        osc.frequency.linearRampToValueAtTime(90, ctx.currentTime + 0.25);
-        gain.gain.setValueAtTime(0.12, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+        osc.frequency.setValueAtTime(200, ctx.currentTime);
+        osc.frequency.linearRampToValueAtTime(80, ctx.currentTime + 0.28);
+        gain.gain.setValueAtTime(0.14, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.32);
         osc.start();
-        osc.stop(ctx.currentTime + 0.3);
+        osc.stop(ctx.currentTime + 0.32);
       }
     } catch (e) {}
+  };
+
+  const copyToClipboard = (text: string, id: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    playCyberSound("CLICK");
+    setTimeout(() => setCopiedId(null), 2000);
   };
 
   useEffect(() => {
@@ -180,13 +192,13 @@ export default function Dashboard() {
     let width = (canvas.width = canvas.offsetWidth);
     let height = (canvas.height = canvas.offsetHeight);
 
-    const particles = Array.from({ length: 45 }, () => ({
+    const particles = Array.from({ length: 48 }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.6,
-      vy: (Math.random() - 0.5) * 0.6,
+      vx: (Math.random() - 0.5) * 0.55,
+      vy: (Math.random() - 0.5) * 0.55,
       size: Math.random() * 2 + 1,
-      color: Math.random() > 0.5 ? "rgba(0, 240, 255, 0.4)" : "rgba(16, 185, 129, 0.4)",
+      color: Math.random() > 0.5 ? "rgba(0, 240, 255, 0.45)" : "rgba(16, 185, 129, 0.45)",
     }));
 
     const render = () => {
@@ -196,9 +208,9 @@ export default function Dashboard() {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 100) {
+          if (dist < 110) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 * (1 - dist / 100)})`;
+            ctx.strokeStyle = `rgba(0, 240, 255, ${0.16 * (1 - dist / 110)})`;
             ctx.lineWidth = 0.8;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -292,7 +304,6 @@ export default function Dashboard() {
     return () => ws?.close();
   }, [soundEnabled]);
 
-  // Run Autonomous Multi-Agent Negotiation
   const executeNegotiation = async () => {
     playCyberSound("CLICK");
     setIsNegotiating(true);
@@ -324,7 +335,6 @@ export default function Dashboard() {
     }
   };
 
-  // Simulate Dispute & AI Arbitration on Invoice
   const triggerDispute = async (invoiceId: string) => {
     playCyberSound("CLICK");
     try {
@@ -345,7 +355,6 @@ export default function Dashboard() {
     }
   };
 
-  // Save Policy Updates
   const savePolicyChanges = async () => {
     if (!editingAgent) return;
     playCyberSound("CLICK");
@@ -395,7 +404,7 @@ export default function Dashboard() {
           return (
             <div className="flex items-center gap-3 py-1">
               <div
-                className={`relative flex items-center justify-center w-8 h-8 rounded-xl font-mono text-xs font-bold border transition ${
+                className={`relative flex items-center justify-center w-8 h-8 rounded-2xl font-mono text-xs font-bold border transition ${
                   isClaude
                     ? "bg-amber-500/10 text-amber-300 border-amber-500/40 shadow-[0_0_15px_-3px_rgba(245,158,11,0.25)]"
                     : isGemini
@@ -449,20 +458,20 @@ export default function Dashboard() {
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => {
           if (p.value === "APPROVED") {
             return (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/40 shadow-[0_0_15px_-2px_rgba(16,185,129,0.35)]">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-2xl text-[11px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/40 shadow-[0_0_15px_-2px_rgba(16,185,129,0.35)]">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Authorized
               </span>
             );
           }
           if (p.value === "REQUIRES_STEP_UP") {
             return (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/40">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-2xl text-[11px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/40">
                 <ShieldAlert className="w-3.5 h-3.5 text-amber-400" /> Step-Up Req.
               </span>
             );
           }
           return (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-rose-500/15 text-rose-300 border border-rose-500/50 shadow-[0_0_18px_-2px_rgba(244,63,94,0.45)]">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-2xl text-[11px] font-bold bg-rose-500/15 text-rose-300 border border-rose-500/50 shadow-[0_0_18px_-2px_rgba(244,63,94,0.45)]">
               <XCircle className="w-3.5 h-3.5 text-rose-400" /> Quarantined
             </span>
           );
@@ -499,7 +508,7 @@ export default function Dashboard() {
         headerName: "PayPal Settlement ID",
         width: 190,
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => (
-          <span className="text-xs font-mono text-cyan-300 bg-cyan-950/40 px-2.5 py-1 rounded-lg border border-cyan-800/50 shadow-inner">
+          <span className="text-xs font-mono text-cyan-300 bg-cyan-950/40 px-2.5 py-1 rounded-xl border border-cyan-800/50 shadow-inner">
             {p.value || "HOLD / NONE"}
           </span>
         ),
@@ -513,7 +522,7 @@ export default function Dashboard() {
               playCyberSound("CLICK");
               setSelectedTx(p.data || null);
             }}
-            className="flex items-center gap-1.5 text-xs text-cyan-300 hover:text-white px-3 py-1 rounded-lg bg-cyan-950/60 hover:bg-cyan-900/80 border border-cyan-700/50 transition shadow-sm font-medium"
+            className="flex items-center gap-1.5 text-xs text-cyan-300 hover:text-white px-3 py-1 rounded-xl bg-cyan-950/60 hover:bg-cyan-900/80 border border-cyan-700/50 transition shadow-sm font-medium"
           >
             <Code2 className="w-3.5 h-3.5 text-cyan-400" /> Audit
           </button>
@@ -570,7 +579,7 @@ export default function Dashboard() {
   const totalBlocked = transactions.filter((t) => t.decision === "BLOCKED").length;
 
   return (
-    <div className="relative min-h-screen deep-space-grid text-slate-100 selection:bg-cyan-500 selection:text-black">
+    <div className="relative min-h-screen cyber-bg-matrix text-slate-100 selection:bg-cyan-500 selection:text-black">
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none opacity-40 z-0" />
       <div className="absolute top-0 left-1/4 w-[600px] h-[350px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none z-0" />
       <div className="absolute top-1/3 right-1/4 w-[500px] h-[350px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none z-0" />
@@ -587,7 +596,7 @@ export default function Dashboard() {
 
       <div className="relative z-10 max-w-7xl mx-auto p-6 md:p-8 space-y-7">
         {/* Top Navbar */}
-        <header className="glass-glow-cyan rounded-3xl p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-5 relative overflow-hidden">
+        <header className="bento-surface rounded-2xl p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-5 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-1/3 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-laser pointer-events-none" />
 
           <div className="flex items-center gap-5">
@@ -599,10 +608,10 @@ export default function Dashboard() {
             <div>
               <div className="flex items-center gap-3">
                 <h1 className="text-3xl font-black tracking-tight text-white shimmer-text">GUARDPAY</h1>
-                <span className="text-[11px] font-mono uppercase px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 font-bold tracking-wider">
+                <span className="text-[11px] font-mono uppercase px-3 py-1 rounded-2xl bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 font-bold tracking-wider">
                   NEXUS 3.0 COMMAND CENTER
                 </span>
-                <span className="text-[11px] font-mono uppercase px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 font-bold tracking-wider">
+                <span className="text-[11px] font-mono uppercase px-3 py-1 rounded-2xl bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 font-bold tracking-wider">
                   PAYPAL DEVELOPER PLATFORM
                 </span>
               </div>
@@ -650,41 +659,43 @@ export default function Dashboard() {
           </div>
         </header>
 
-        {/* Global Navigation Tabs */}
-        <div className="flex flex-wrap gap-2 border-b border-slate-800 pb-2">
-          {[
-            { id: "TELEMETRY", label: "AG Grid Telemetry Bridge", icon: Layers },
-            { id: "NEGOTIATION", label: "Agent Negotiation Studio", icon: Bot },
-            { id: "POLICIES", label: "Policy Firewall Studio", icon: Sliders },
-            { id: "INVOICES", label: "PayPal Invoicing & Disputes", icon: FileText },
-          ].map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  playCyberSound("CLICK");
-                  setActiveTab(tab.id as any);
-                }}
-                className={`flex items-center gap-2.5 px-5 py-2.5 rounded-2xl text-xs font-extrabold transition-all duration-300 ${
-                  isActive
-                    ? "bg-gradient-to-r from-cyan-600 to-sky-600 text-white shadow-[0_0_20px_-3px_rgba(0,240,255,0.4)] border border-cyan-400/40"
-                    : "glass-ultra text-slate-400 hover:text-white hover:border-slate-700"
-                }`}
-              >
-                <Icon className={`w-4 h-4 ${isActive ? "text-cyan-200" : "text-slate-400"}`} />
-                {tab.label}
-              </button>
-            );
-          })}
+        {/* UseLayouts-Style Floating Command Dock */}
+        <div className="flex justify-center">
+          <div className="floating-dock p-1.5 rounded-2xl flex flex-wrap gap-1.5">
+            {[
+              { id: "TELEMETRY", label: "AG Grid Telemetry Bridge", icon: Layers },
+              { id: "NEGOTIATION", label: "Agent Negotiation Studio", icon: Bot },
+              { id: "POLICIES", label: "Policy Firewall Studio", icon: Sliders },
+              { id: "INVOICES", label: "PayPal Invoicing & Disputes", icon: FileText },
+            ].map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    playCyberSound("CLICK");
+                    setActiveTab(tab.id as any);
+                  }}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs font-extrabold transition-all duration-200 ${
+                    isActive
+                      ? "bg-gradient-to-r from-cyan-500 to-sky-500 text-black shadow-lg shadow-cyan-500/30 scale-[1.02]"
+                      : "text-slate-400 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  <Icon className={`w-4 h-4 ${isActive ? "text-black" : "text-slate-400"}`} />
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* TAB 1: TELEMETRY BRIDGE */}
         {activeTab === "TELEMETRY" && (
           <div className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              <div className="glass-ultra rounded-3xl p-6 relative overflow-hidden group hover:border-emerald-500/50 transition duration-300">
+              <div className="bento-surface rounded-2xl p-6 relative overflow-hidden group">
                 <div className="flex items-center justify-between text-slate-400 text-xs font-bold tracking-wider uppercase">
                   <span>PayPal Captured</span>
                   <DollarSign className="w-5 h-5 text-emerald-400" />
@@ -695,7 +706,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="glass-ultra rounded-3xl p-6 relative overflow-hidden group hover:border-rose-500/50 transition duration-300">
+              <div className="bento-surface rounded-2xl p-6 relative overflow-hidden group">
                 <div className="flex items-center justify-between text-slate-400 text-xs font-bold tracking-wider uppercase">
                   <span>Attacks Blocked</span>
                   <ShieldAlert className="w-5 h-5 text-rose-400" />
@@ -706,7 +717,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="glass-ultra rounded-3xl p-6 relative overflow-hidden group hover:border-cyan-500/50 transition duration-300">
+              <div className="bento-surface rounded-2xl p-6 relative overflow-hidden group">
                 <div className="flex items-center justify-between text-slate-400 text-xs font-bold tracking-wider uppercase">
                   <span>Active AI Agents</span>
                   <Cpu className="w-5 h-5 text-cyan-400" />
@@ -717,7 +728,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="glass-ultra rounded-3xl p-6 relative overflow-hidden group hover:border-amber-500/50 transition duration-300">
+              <div className="bento-surface rounded-2xl p-6 relative overflow-hidden group">
                 <div className="flex items-center justify-between text-slate-400 text-xs font-bold tracking-wider uppercase">
                   <span>Sponsor Synergy</span>
                   <Zap className="w-5 h-5 text-amber-400" />
@@ -727,7 +738,8 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="glass-ultra rounded-3xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-5 border border-slate-800/90 shadow-xl">
+            {/* EvilButtons-Style Tactile Action Bar */}
+            <div className="bento-surface rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-5 border border-slate-800/90 shadow-xl">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-cyan-950/60 rounded-2xl border border-cyan-800/60 text-cyan-400">
                   <Activity className="w-6 h-6 animate-pulse" />
@@ -735,7 +747,7 @@ export default function Dashboard() {
                 <div>
                   <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     Real-Time Defense & Transaction Simulator
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-mono">Interactive Demo</span>
+                    <span className="text-[10px] px-2.5 py-0.5 rounded-2xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-mono">Interactive Demo</span>
                   </h3>
                   <p className="text-xs text-slate-400">Trigger autonomous agent transactions to test real-time firewall interception</p>
                 </div>
@@ -745,7 +757,7 @@ export default function Dashboard() {
                 <button
                   onClick={() => runSimulation(false)}
                   disabled={isSimulating}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-cyan-600 to-sky-600 hover:from-cyan-500 hover:to-sky-500 text-white text-xs font-extrabold shadow-[0_0_25px_-5px_rgba(0,240,255,0.4)] transition active:scale-95 disabled:opacity-50"
+                  className="tactile-btn flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-black disabled:opacity-50"
                 >
                   <Send className="w-4 h-4" />
                   Simulate Valid Purchase ($22.50)
@@ -754,7 +766,7 @@ export default function Dashboard() {
                 <button
                   onClick={() => runSimulation(true)}
                   disabled={isSimulating}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-rose-600 to-rose-800 hover:from-rose-500 hover:to-rose-700 text-white text-xs font-extrabold shadow-[0_0_25px_-5px_rgba(244,63,94,0.4)] transition active:scale-95 disabled:opacity-50"
+                  className="tactile-btn tactile-btn-crimson flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-black disabled:opacity-50"
                 >
                   <Flame className="w-4 h-4 text-amber-300" />
                   Inject Prompt Hijack ($850.00)
@@ -762,13 +774,13 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <section className="glass-ultra rounded-3xl p-6 space-y-5 border border-slate-800/90 shadow-2xl">
+            <section className="bento-surface rounded-2xl p-6 space-y-5 border border-slate-800/90 shadow-2xl">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                   <h2 className="text-lg font-black text-white flex items-center gap-2.5">
                     <Layers className="w-5 h-5 text-cyan-400" />
                     Live Agent Financial Stream
-                    <span className="text-[10px] uppercase font-mono px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-bold">
+                    <span className="text-[10px] uppercase font-mono px-2.5 py-0.5 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-bold">
                       Powered by AG Grid
                     </span>
                   </h2>
@@ -795,7 +807,7 @@ export default function Dashboard() {
                           playCyberSound("CLICK");
                           setFilterMode(mode);
                         }}
-                        className={`px-3.5 py-1.5 rounded-xl transition ${
+                        className={`px-3.5 py-1.5 rounded-2xl transition ${
                           filterMode === mode ? "bg-cyan-500 text-black font-extrabold shadow-md shadow-cyan-500/30" : "text-slate-400 hover:text-white"
                         }`}
                       >
@@ -823,7 +835,7 @@ export default function Dashboard() {
         {/* TAB 2: AUTONOMOUS NEGOTIATION & PROCUREMENT STUDIO */}
         {activeTab === "NEGOTIATION" && (
           <div className="space-y-6">
-            <div className="glass-ultra rounded-3xl p-6 border border-slate-800 space-y-4">
+            <div className="bento-surface rounded-2xl p-6 border border-slate-800 space-y-4">
               <div className="flex items-center gap-3">
                 <Bot className="w-6 h-6 text-cyan-400" />
                 <div>
@@ -841,7 +853,7 @@ export default function Dashboard() {
                     type="text"
                     value={negoPrompt}
                     onChange={(e) => setNegoPrompt(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-4 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-cyan-400"
+                    className="w-full bg-slate-900 border border-slate-700/80 rounded-2xl px-4 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-cyan-400"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -850,7 +862,7 @@ export default function Dashboard() {
                     type="number"
                     value={negoBudget}
                     onChange={(e) => setNegoBudget(Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-4 py-2.5 text-xs text-slate-100 font-mono focus:outline-none focus:border-cyan-400"
+                    className="w-full bg-slate-900 border border-slate-700/80 rounded-2xl px-4 py-2.5 text-xs text-slate-100 font-mono focus:outline-none focus:border-cyan-400"
                   />
                 </div>
               </div>
@@ -862,7 +874,7 @@ export default function Dashboard() {
                 <button
                   onClick={executeNegotiation}
                   disabled={isNegotiating}
-                  className="flex items-center gap-2 px-6 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-black text-xs font-extrabold shadow-lg shadow-cyan-500/20 active:scale-95 disabled:opacity-50"
+                  className="tactile-btn flex items-center gap-2 px-6 py-2.5 rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-black disabled:opacity-50"
                 >
                   <Play className="w-4 h-4 fill-current" />
                   {isNegotiating ? "Agents Negotiating..." : "Launch Autonomous Negotiation"}
@@ -872,7 +884,7 @@ export default function Dashboard() {
 
             {/* Negotiation Step Stream */}
             {negoSteps.length > 0 && (
-              <div className="glass-ultra rounded-3xl p-6 border border-slate-800 space-y-4">
+              <div className="bento-surface rounded-2xl p-6 border border-slate-800 space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                   <h3 className="text-sm font-extrabold text-white flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-emerald-400" />
@@ -889,7 +901,7 @@ export default function Dashboard() {
                 <div className="space-y-3">
                   {negoSteps.map((step) => (
                     <div key={step.step} className="p-4 rounded-2xl bg-slate-950/70 border border-slate-800/80 flex items-start gap-3">
-                      <div className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-cyan-400 text-xs font-mono font-bold">
+                      <div className="p-2 rounded-2xl bg-slate-900 border border-slate-800 text-cyan-400 text-xs font-mono font-bold">
                         #{step.step}
                       </div>
                       <div className="flex-1 space-y-1">
@@ -910,7 +922,7 @@ export default function Dashboard() {
         {/* TAB 3: POLICY FIREWALL STUDIO */}
         {activeTab === "POLICIES" && (
           <div className="space-y-6">
-            <div className="glass-ultra rounded-3xl p-6 border border-slate-800 space-y-4">
+            <div className="bento-surface rounded-2xl p-6 border border-slate-800 space-y-4">
               <div className="flex items-center gap-3">
                 <Sliders className="w-6 h-6 text-cyan-400" />
                 <div>
@@ -944,8 +956,7 @@ export default function Dashboard() {
                     ))}
                   </div>
 
-                  {/* Slider Controls */}
-                  <div className="p-6 bg-slate-950/70 border border-slate-800 rounded-3xl space-y-5">
+                  <div className="p-6 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-5">
                     <h3 className="text-sm font-bold text-white">Configuring: {editingAgent.agentName}</h3>
 
                     <div className="space-y-2">
@@ -983,7 +994,7 @@ export default function Dashboard() {
                     <div className="flex justify-end pt-2">
                       <button
                         onClick={savePolicyChanges}
-                        className="px-6 py-2.5 rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-extrabold shadow-md shadow-cyan-500/30"
+                        className="tactile-btn px-6 py-2.5 rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-black"
                       >
                         Save & Deploy Policy Update
                       </button>
@@ -998,7 +1009,7 @@ export default function Dashboard() {
         {/* TAB 4: PAYPAL DIGITAL INVOICES & DISPUTES */}
         {activeTab === "INVOICES" && (
           <div className="space-y-6">
-            <div className="glass-ultra rounded-3xl p-6 border border-slate-800 space-y-4">
+            <div className="bento-surface rounded-2xl p-6 border border-slate-800 space-y-4">
               <div className="flex items-center gap-3">
                 <FileCheck className="w-6 h-6 text-cyan-400" />
                 <div>
@@ -1011,14 +1022,23 @@ export default function Dashboard() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-3">
                 {invoices.map((inv) => (
-                  <div key={inv.id} className="p-5 rounded-3xl bg-slate-950/80 border border-slate-800 space-y-4 shadow-xl">
+                  <div key={inv.id} className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-4 shadow-xl">
                     <div className="flex justify-between items-start">
                       <div>
-                        <div className="text-xs font-mono text-cyan-400 font-bold">{inv.invoiceNumber}</div>
+                        <div className="text-xs font-mono text-cyan-400 font-bold flex items-center gap-1.5">
+                          {inv.invoiceNumber}
+                          <button
+                            onClick={() => copyToClipboard(inv.invoiceNumber, inv.id)}
+                            className="text-slate-500 hover:text-cyan-400 transition"
+                            title="Copy Invoice ID"
+                          >
+                            {copiedId === inv.id ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                          </button>
+                        </div>
                         <div className="text-sm font-bold text-white mt-0.5">{inv.merchantName}</div>
                         <div className="text-[11px] text-slate-400">Billed to: {inv.recipientName}</div>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-bold border ${
+                      <span className={`px-3 py-1 rounded-2xl text-xs font-bold border ${
                         inv.status === "PAID"
                           ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/30"
                           : inv.status === "REFUNDED"
@@ -1043,7 +1063,7 @@ export default function Dashboard() {
                     </div>
 
                     {inv.arbitrationNotes && (
-                      <div className="p-3 rounded-xl bg-rose-950/30 border border-rose-800/40 text-[11px] text-rose-200">
+                      <div className="p-3 rounded-2xl bg-rose-950/30 border border-rose-800/40 text-[11px] text-rose-200">
                         <Scale className="w-4 h-4 text-rose-400 mb-1 inline mr-1" />
                         {inv.arbitrationNotes}
                       </div>
@@ -1062,7 +1082,7 @@ export default function Dashboard() {
                       {inv.status !== "REFUNDED" && (
                         <button
                           onClick={() => triggerDispute(inv.id)}
-                          className="px-3.5 py-1.5 rounded-xl bg-rose-600/80 hover:bg-rose-600 text-white text-xs font-bold transition flex items-center gap-1.5"
+                          className="tactile-btn px-3.5 py-1.5 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition flex items-center gap-1.5"
                         >
                           <AlertTriangle className="w-3.5 h-3.5" /> Simulate Dispute
                         </button>
@@ -1076,7 +1096,7 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* Flyout Slide-over Drawer for Inspecting Chain of Thought */}
+      {/* Slide-over Drawer */}
       {selectedTx && (
         <div className="fixed inset-0 bg-black/85 backdrop-blur-xl flex justify-end z-50 transition-opacity">
           <div className="bg-[#070b16] border-l border-slate-800/90 w-full max-w-xl h-full p-7 overflow-y-auto space-y-6 shadow-2xl">
@@ -1090,7 +1110,7 @@ export default function Dashboard() {
                   playCyberSound("CLICK");
                   setSelectedTx(null);
                 }}
-                className="text-slate-400 hover:text-white text-base p-1.5 rounded-xl hover:bg-slate-800"
+                className="text-slate-400 hover:text-white text-base p-1.5 rounded-2xl hover:bg-slate-800"
               >
                 ✕
               </button>
@@ -1150,7 +1170,7 @@ export default function Dashboard() {
                   playCyberSound("CLICK");
                   setSelectedTx(null);
                 }}
-                className="px-6 py-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold shadow-lg"
+                className="tactile-btn px-6 py-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold"
               >
                 Close Audit Drawer
               </button>
