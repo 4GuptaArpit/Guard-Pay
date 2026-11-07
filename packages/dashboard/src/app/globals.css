@@ -3,12 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --background: #03060C;
+  --background: #020408;
   --foreground: #f8fafc;
   --accent-cyan: #00F0FF;
   --accent-paypal: #0079C1;
   --accent-emerald: #10B981;
   --accent-crimson: #FF3366;
+  --chassis-metal: #0B1220;
 }
 
 body {
@@ -20,66 +21,124 @@ body {
 
 /* 3D Deep Space Grid Matrix (OriginKit + UseLayouts) */
 .cyber-bg-matrix {
-  background-size: 40px 40px;
+  background-size: 32px 32px;
   background-image: 
-    linear-gradient(to right, rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(to right, rgba(0, 240, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+}
+
+/* Hardware Synthesizer Metal Chassis */
+.synth-chassis {
+  background: radial-gradient(ellipse at top left, #111b2f 0%, #070d18 60%, #03060c 100%);
+  border: 1px solid rgba(0, 240, 255, 0.18);
+  box-shadow: 
+    0 20px 50px -10px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+    0 0 35px -5px rgba(0, 121, 193, 0.2);
+}
+
+/* Dynamo Kitchen Knurled Hardware Dial */
+.knurled-dial {
+  background: radial-gradient(circle at 35% 35%, #2a3b5c, #0d1527 70%);
+  border: 2px solid rgba(0, 240, 255, 0.35);
+  box-shadow: 
+    0 6px 16px rgba(0, 0, 0, 0.6),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.8);
+  cursor: grab;
+  transition: transform 0.1s ease-out, box-shadow 0.2s ease;
+}
+
+.knurled-dial:active {
+  cursor: grabbing;
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.8),
+    0 0 15px rgba(0, 240, 255, 0.5);
+}
+
+/* Oscilloscope CRT Scanlines */
+.crt-screen {
+  position: relative;
+  background: #020712;
+  overflow: hidden;
+}
+
+.crt-screen::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  z-index: 2;
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
 }
 
 /* Layered Bento Depth (GetLayers Pattern) */
 .bento-surface {
-  background: rgba(8, 14, 28, 0.72);
+  background: rgba(8, 14, 28, 0.76);
   backdrop-filter: blur(20px) saturate(190%);
   -webkit-backdrop-filter: blur(20px) saturate(190%);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .bento-surface:hover {
-  border-color: rgba(0, 240, 255, 0.3);
-  box-shadow: 0 15px 35px -10px rgba(0, 240, 255, 0.15);
+  border-color: rgba(0, 240, 255, 0.35);
+  box-shadow: 0 15px 35px -10px rgba(0, 240, 255, 0.2);
 }
 
 /* EvilButtons Tactile Micro-Physics */
 .tactile-btn {
   transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.4), 0 0 20px -3px rgba(0, 240, 255, 0.3);
+  box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.5), 0 0 20px -3px rgba(0, 240, 255, 0.35);
 }
 
 .tactile-btn:active {
   transform: translateY(2px);
-  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.4), 0 0 10px -3px rgba(0, 240, 255, 0.2);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.5), 0 0 10px -3px rgba(0, 240, 255, 0.25);
 }
 
 .tactile-btn-crimson {
-  box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.4), 0 0 20px -3px rgba(255, 51, 102, 0.35);
+  box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.5), 0 0 20px -3px rgba(255, 51, 102, 0.4);
 }
 
 .tactile-btn-crimson:active {
   transform: translateY(2px);
-  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.4), 0 0 10px -3px rgba(255, 51, 102, 0.2);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.5), 0 0 10px -3px rgba(255, 51, 102, 0.25);
 }
 
 /* Floating Glass Control Dock (UseLayouts Pattern) */
 .floating-dock {
-  background: rgba(6, 11, 22, 0.85);
+  background: rgba(6, 11, 24, 0.88);
   backdrop-filter: blur(24px);
-  border: 1px solid rgba(0, 240, 255, 0.2);
-  box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(0, 240, 255, 0.15);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(0, 240, 255, 0.2);
+}
+
+/* Pinterest Staggered Masonry Card Hover Overlay */
+.receipt-card {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.receipt-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  border-color: rgba(0, 240, 255, 0.45);
+  box-shadow: 0 20px 30px -10px rgba(0, 240, 255, 0.25);
 }
 
 /* AG Grid Dark Obsidian Theme Override */
 .ag-theme-alpine-dark {
-  --ag-background-color: #050812;
-  --ag-header-background-color: #080d1c;
-  --ag-odd-row-background-color: #050812;
+  --ag-background-color: #040711;
+  --ag-header-background-color: #070c1a;
+  --ag-odd-row-background-color: #040711;
   --ag-even-row-background-color: #060a16;
   --ag-header-foreground-color: #94a3b8;
   --ag-foreground-color: #f1f5f9;
-  --ag-border-color: rgba(255, 255, 255, 0.06);
-  --ag-row-hover-color: rgba(0, 240, 255, 0.08);
-  --ag-selected-row-background-color: rgba(0, 121, 193, 0.25);
+  --ag-border-color: rgba(255, 255, 255, 0.07);
+  --ag-row-hover-color: rgba(0, 240, 255, 0.1);
+  --ag-selected-row-background-color: rgba(0, 121, 193, 0.3);
   --ag-font-family: inherit;
   --ag-font-size: 13px;
   --ag-grid-size: 7px;
@@ -120,4 +179,25 @@ body {
   to {
     background-position: 200% center;
   }
+}
+
+/* Pulse Laser Packet for Animated Node Beams */
+@keyframes laserPacket {
+  0% { offset-distance: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+/* LED Diode Glow */
+.led-glow-emerald {
+  box-shadow: 0 0 10px #10B981, inset 0 0 4px #a7f3d0;
+}
+
+.led-glow-cyan {
+  box-shadow: 0 0 10px #00F0FF, inset 0 0 4px #cffafe;
+}
+
+.led-glow-crimson {
+  box-shadow: 0 0 10px #FF3366, inset 0 0 4px #fecdd3;
 }
