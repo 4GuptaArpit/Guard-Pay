@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
 
 export const metadata: Metadata = {
   title: "GuardPay — Autonomous AI Agent Telemetry & PayPal Gateway",

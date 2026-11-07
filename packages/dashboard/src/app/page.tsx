@@ -1117,13 +1117,14 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="ag-theme-alpine-dark w-full h-[380px] rounded-2xl overflow-hidden border border-slate-800/90 shadow-[0_0_30px_-8px_rgba(0,0,0,0.8)]">
+              <div className="ag-theme-quartz-dark w-full h-[460px] rounded-2xl overflow-hidden border border-slate-800/90 shadow-[0_0_30px_-8px_rgba(0,0,0,0.8)]">
                 <AgGridReact
                   rowData={filteredData}
                   columnDefs={colDefs}
                   pagination={true}
                   paginationPageSize={10}
                   animateRows={true}
+                  rowHeight={52}
                   defaultColDef={{ sortable: true, filter: true, resizable: true }}
                 />
               </div>

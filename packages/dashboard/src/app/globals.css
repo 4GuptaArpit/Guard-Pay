@@ -128,31 +128,53 @@ body {
   box-shadow: 0 20px 30px -10px rgba(0, 240, 255, 0.25);
 }
 
-/* AG Grid Dark Obsidian Theme Override */
-.ag-theme-alpine-dark {
-  --ag-background-color: #040711;
-  --ag-header-background-color: #070c1a;
-  --ag-odd-row-background-color: #040711;
-  --ag-even-row-background-color: #060a16;
-  --ag-header-foreground-color: #94a3b8;
-  --ag-foreground-color: #f1f5f9;
-  --ag-border-color: rgba(255, 255, 255, 0.07);
-  --ag-row-hover-color: rgba(0, 240, 255, 0.1);
-  --ag-selected-row-background-color: rgba(0, 121, 193, 0.3);
+/* AG Grid Obsidian Cyber Theme (Quartz Dark Overrides) */
+.ag-theme-quartz-dark {
+  --ag-background-color: #050914 !important;
+  --ag-header-background-color: #080f22 !important;
+  --ag-odd-row-background-color: #050914 !important;
+  --ag-even-row-background-color: #070d1e !important;
+  --ag-header-foreground-color: #94a3b8 !important;
+  --ag-foreground-color: #f1f5f9 !important;
+  --ag-border-color: rgba(255, 255, 255, 0.08) !important;
+  --ag-secondary-border-color: rgba(255, 255, 255, 0.05) !important;
+  --ag-row-hover-color: rgba(0, 240, 255, 0.12) !important;
+  --ag-selected-row-background-color: rgba(0, 121, 193, 0.3) !important;
+  --ag-active-color: #00F0FF !important;
   --ag-font-family: inherit;
   --ag-font-size: 13px;
   --ag-grid-size: 7px;
+  --ag-row-height: 48px;
+  --ag-header-height: 42px;
 }
 
-.ag-theme-alpine-dark .ag-header-cell-label {
-  font-weight: 700;
+.ag-theme-quartz-dark .ag-root-wrapper {
+  background-color: #050914 !important;
+  border: 1px solid rgba(0, 240, 255, 0.18) !important;
+  border-radius: 1rem;
+}
+
+.ag-theme-quartz-dark .ag-header-cell-label {
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   font-size: 11px;
+  color: #94a3b8;
 }
 
-.ag-theme-alpine-dark .ag-row {
+.ag-theme-quartz-dark .ag-row {
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.ag-theme-quartz-dark .ag-paging-panel {
+  background-color: #070d1c !important;
+  color: #94a3b8 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.ag-theme-quartz-dark .ag-paging-button {
+  color: #00F0FF !important;
 }
 
 /* Laser sweep animation */
