@@ -3,154 +3,166 @@
 @tailwind utilities;
 
 :root {
-  --background: #020408;
-  --foreground: #f8fafc;
-  --accent-cyan: #00F0FF;
-  --accent-paypal: #0079C1;
-  --accent-emerald: #10B981;
-  --accent-crimson: #FF3366;
-  --chassis-metal: #0B1220;
+  --canvas-base: #0B0F0E;
+  --surface-base: #111716;
+  --surface-raised: #16201E;
+  --foreground: #F2F5F4;
+  --muted-text: #7E938E;
+  --amber-core: #FFB300;
+  --amber-glow: rgba(255, 179, 0, 0.22);
+  --emerald-pass: #00E699;
+  --vermilion-block: #FF3B30;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-amber: rgba(255, 179, 0, 0.35);
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background-color: var(--canvas-base);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
   overflow-x: hidden;
 }
 
-/* 3D Deep Space Grid Matrix (OriginKit + UseLayouts) */
-.cyber-bg-matrix {
-  background-size: 32px 32px;
+/* Deep Obsidian Glass & Noise Grain Grid */
+.analog-mesh {
+  background-color: #080C0B;
   background-image: 
-    linear-gradient(to right, rgba(0, 240, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+    radial-gradient(ellipse at 50% 0%, rgba(255, 179, 0, 0.07) 0%, transparent 60%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 36px 36px, 36px 36px;
 }
 
-/* Hardware Synthesizer Metal Chassis */
-.synth-chassis {
-  background: radial-gradient(ellipse at top left, #111b2f 0%, #070d18 60%, #03060c 100%);
-  border: 1px solid rgba(0, 240, 255, 0.18);
-  box-shadow: 
-    0 20px 50px -10px rgba(0, 0, 0, 0.8),
-    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-    0 0 35px -5px rgba(0, 121, 193, 0.2);
-}
-
-/* Dynamo Kitchen Knurled Hardware Dial */
-.knurled-dial {
-  background: radial-gradient(circle at 35% 35%, #2a3b5c, #0d1527 70%);
-  border: 2px solid rgba(0, 240, 255, 0.35);
-  box-shadow: 
-    0 6px 16px rgba(0, 0, 0, 0.6),
-    inset 0 2px 4px rgba(255, 255, 255, 0.2),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.8);
-  cursor: grab;
-  transition: transform 0.1s ease-out, box-shadow 0.2s ease;
-}
-
-.knurled-dial:active {
-  cursor: grabbing;
-  box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.8),
-    0 0 15px rgba(0, 240, 255, 0.5);
-}
-
-/* Oscilloscope CRT Scanlines */
-.crt-screen {
-  position: relative;
-  background: #020712;
-  overflow: hidden;
-}
-
-.crt-screen::before {
-  content: " ";
-  display: block;
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-  z-index: 2;
-  background-size: 100% 3px, 6px 100%;
-  pointer-events: none;
-}
-
-/* Layered Bento Depth (GetLayers Pattern) */
-.bento-surface {
-  background: rgba(8, 14, 28, 0.76);
-  backdrop-filter: blur(20px) saturate(190%);
-  -webkit-backdrop-filter: blur(20px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+/* Dynamo Tactile Surface */
+.dynamo-panel {
+  background: linear-gradient(180deg, rgba(22, 32, 30, 0.85) 0%, rgba(14, 20, 19, 0.95) 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: 1rem;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.bento-surface:hover {
-  border-color: rgba(0, 240, 255, 0.35);
-  box-shadow: 0 15px 35px -10px rgba(0, 240, 255, 0.2);
+.dynamo-panel:hover {
+  border-color: var(--border-amber);
+  box-shadow: 0 24px 48px -12px rgba(255, 179, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Teenage Engineering Knurled Rotary Knob */
+.analog-knob {
+  background: radial-gradient(circle at 35% 35%, #2A3633 0%, #121918 75%);
+  border: 2px solid rgba(255, 179, 0, 0.4);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.8),
+    inset 0 2px 3px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.9);
+  cursor: grab;
+  transition: transform 0.12s ease-out, box-shadow 0.2s ease;
+}
+
+.analog-knob:active {
+  cursor: grabbing;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 179, 0, 0.6);
+}
+
+/* VU Audio Peak Meter LEDs */
+.vu-led {
+  height: 6px;
+  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.08);
+  transition: all 0.15s ease;
+}
+
+.vu-led.active-amber {
+  background-color: #FFB300;
+  box-shadow: 0 0 8px #FFB300;
+}
+
+.vu-led.active-green {
+  background-color: #00E699;
+  box-shadow: 0 0 8px #00E699;
+}
+
+.vu-led.active-red {
+  background-color: #FF3B30;
+  box-shadow: 0 0 8px #FF3B30;
 }
 
 /* EvilButtons Tactile Micro-Physics */
-.tactile-btn {
-  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.5), 0 0 20px -3px rgba(0, 240, 255, 0.35);
+.tactile-amber-btn {
+  background: linear-gradient(180deg, #FFB300 0%, #E69D00 100%);
+  color: #080C0B;
+  font-weight: 800;
+  box-shadow: 0 4px 0 0 #A87000, 0 10px 20px -3px rgba(255, 179, 0, 0.35);
+  transition: all 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.tactile-btn:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.5), 0 0 10px -3px rgba(0, 240, 255, 0.25);
+.tactile-amber-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
 }
 
-.tactile-btn-crimson {
-  box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.5), 0 0 20px -3px rgba(255, 51, 102, 0.4);
+.tactile-amber-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 0 #A87000, 0 4px 8px rgba(255, 179, 0, 0.2);
 }
 
-.tactile-btn-crimson:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.5), 0 0 10px -3px rgba(255, 51, 102, 0.25);
+.tactile-vermilion-btn {
+  background: linear-gradient(180deg, #FF3B30 0%, #D62B21 100%);
+  color: #FFFFFF;
+  font-weight: 800;
+  box-shadow: 0 4px 0 0 #8F1811, 0 10px 20px -3px rgba(255, 59, 48, 0.4);
+  transition: all 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Floating Glass Control Dock (UseLayouts Pattern) */
-.floating-dock {
-  background: rgba(6, 11, 24, 0.88);
+.tactile-vermilion-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 0 #8F1811, 0 4px 8px rgba(255, 59, 48, 0.2);
+}
+
+/* Glass Float Dock */
+.float-dock {
+  background: rgba(14, 20, 19, 0.92);
   backdrop-filter: blur(24px);
-  border: 1px solid rgba(0, 240, 255, 0.25);
-  box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(0, 240, 255, 0.2);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 179, 0, 0.25);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(255, 179, 0, 0.15);
 }
 
-/* Pinterest Staggered Masonry Card Hover Overlay */
-.receipt-card {
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+/* Laser sweep animation */
+@keyframes laserSweep {
+  0% { transform: translateX(-100%); }
+  50%, 100% { transform: translateX(200%); }
 }
 
-.receipt-card:hover {
-  transform: translateY(-4px) scale(1.01);
-  border-color: rgba(0, 240, 255, 0.45);
-  box-shadow: 0 20px 30px -10px rgba(0, 240, 255, 0.25);
+.animate-laser-amber {
+  animation: laserSweep 3.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* AG Grid Obsidian Cyber Theme (Quartz Dark Overrides) */
+/* AG Grid Quartz Obsidian Overrides (Crisp High-Contrast Text) */
 .ag-theme-quartz-dark {
-  --ag-background-color: #050914 !important;
-  --ag-header-background-color: #080f22 !important;
-  --ag-odd-row-background-color: #050914 !important;
-  --ag-even-row-background-color: #070d1e !important;
-  --ag-header-foreground-color: #94a3b8 !important;
-  --ag-foreground-color: #f1f5f9 !important;
+  --ag-background-color: #0B100F !important;
+  --ag-header-background-color: #121A18 !important;
+  --ag-odd-row-background-color: #0B100F !important;
+  --ag-even-row-background-color: #0E1513 !important;
+  --ag-header-foreground-color: #FFB300 !important;
+  --ag-foreground-color: #FFFFFF !important;
+  --ag-data-color: #FFFFFF !important;
+  --ag-secondary-foreground-color: #A3B5B0 !important;
   --ag-border-color: rgba(255, 255, 255, 0.08) !important;
   --ag-secondary-border-color: rgba(255, 255, 255, 0.05) !important;
-  --ag-row-hover-color: rgba(0, 240, 255, 0.12) !important;
-  --ag-selected-row-background-color: rgba(0, 121, 193, 0.3) !important;
-  --ag-active-color: #00F0FF !important;
+  --ag-row-hover-color: rgba(255, 179, 0, 0.12) !important;
+  --ag-selected-row-background-color: rgba(255, 179, 0, 0.25) !important;
+  --ag-active-color: #FFB300 !important;
   --ag-font-family: inherit;
   --ag-font-size: 13px;
-  --ag-grid-size: 7px;
-  --ag-row-height: 48px;
-  --ag-header-height: 42px;
+  --ag-grid-size: 8px;
+  --ag-row-height: 54px;
+  --ag-header-height: 46px;
 }
 
 .ag-theme-quartz-dark .ag-root-wrapper {
-  background-color: #050914 !important;
-  border: 1px solid rgba(0, 240, 255, 0.18) !important;
+  background-color: #0B100F !important;
+  border: 1px solid rgba(255, 179, 0, 0.25) !important;
   border-radius: 1rem;
 }
 
@@ -159,67 +171,43 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 11px;
-  color: #94a3b8;
+  color: #FFB300 !important;
+}
+
+.ag-theme-quartz-dark .ag-header-icon {
+  color: #FFB300 !important;
+}
+
+.ag-theme-quartz-dark .ag-cell {
+  color: #FFFFFF !important;
+  display: flex !important;
+  align-items: center !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.03) !important;
+}
+
+.ag-theme-quartz-dark .ag-cell-value {
+  color: #FFFFFF !important;
 }
 
 .ag-theme-quartz-dark .ag-row {
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #FFFFFF !important;
 }
 
 .ag-theme-quartz-dark .ag-paging-panel {
-  background-color: #070d1c !important;
-  color: #94a3b8 !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background-color: #121A18 !important;
+  color: #D3DFDC !important;
+  border-top: 1px solid rgba(255, 179, 0, 0.25) !important;
+  font-weight: 600;
 }
 
 .ag-theme-quartz-dark .ag-paging-button {
-  color: #00F0FF !important;
+  color: #FFB300 !important;
 }
 
-/* Laser sweep animation */
-@keyframes laser-sweep {
-  0% { transform: translateX(-100%); }
-  50%, 100% { transform: translateX(200%); }
-}
-
-.animate-laser {
-  animation: laser-sweep 4s infinite cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Shimmer gradient effect */
-.shimmer-text {
-  background: linear-gradient(90deg, #ffffff 0%, #00F0FF 50%, #ffffff 100%);
-  background-size: 200% auto;
-  color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
-  animation: shine 4s linear infinite;
-}
-
-@keyframes shine {
-  to {
-    background-position: 200% center;
-  }
-}
-
-/* Pulse Laser Packet for Animated Node Beams */
-@keyframes laserPacket {
-  0% { offset-distance: 0%; opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { offset-distance: 100%; opacity: 0; }
-}
-
-/* LED Diode Glow */
-.led-glow-emerald {
-  box-shadow: 0 0 10px #10B981, inset 0 0 4px #a7f3d0;
-}
-
-.led-glow-cyan {
-  box-shadow: 0 0 10px #00F0FF, inset 0 0 4px #cffafe;
-}
-
-.led-glow-crimson {
-  box-shadow: 0 0 10px #FF3366, inset 0 0 4px #fecdd3;
+.ag-theme-quartz-dark .ag-paging-row-summary-panel,
+.ag-theme-quartz-dark .ag-paging-page-summary-panel {
+  color: #FFFFFF !important;
+  font-weight: 700;
 }
