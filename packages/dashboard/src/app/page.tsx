@@ -1148,6 +1148,7 @@ export default function Dashboard() {
               {/* High Contrast Quartz-Dark Grid */}
               <div className="ag-theme-quartz-dark w-full h-[460px] rounded-2xl overflow-hidden border border-amber-500/25 shadow-2xl">
                 <AgGridReact
+                  theme="legacy"
                   rowData={filteredData}
                   columnDefs={colDefs}
                   pagination={true}
