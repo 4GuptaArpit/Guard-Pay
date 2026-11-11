@@ -389,8 +389,9 @@ export default function Dashboard() {
     return [
       {
         field: "timestamp",
-        headerName: "Timestamp",
-        width: 125,
+        headerName: "Time",
+        width: 105,
+        minWidth: 95,
         valueFormatter: (p) =>
           p.value ? new Date(p.value).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }) : "",
         cellClass: "font-mono font-bold text-amber-300 text-xs flex items-center",
@@ -398,19 +399,20 @@ export default function Dashboard() {
       {
         field: "agentName",
         headerName: "Autonomous Agent",
-        width: 260,
+        flex: 1.4,
+        minWidth: 190,
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => {
           const isClaude = p.data?.model.includes("claude");
           const isGemini = p.data?.model.includes("gemini");
           return (
-            <div className="flex items-center gap-3 py-1 h-full">
+            <div className="flex items-center gap-2.5 py-1 h-full overflow-hidden">
               <div
-                className={`relative flex items-center justify-center w-8 h-8 rounded-xl font-mono text-xs font-black border transition ${
+                className={`relative shrink-0 flex items-center justify-center w-7 h-7 rounded-lg font-mono text-xs font-black border transition ${
                   isClaude
-                    ? "bg-amber-500/20 text-amber-300 border-amber-400 shadow-[0_0_12px_rgba(255,179,0,0.4)]"
+                    ? "bg-amber-500/20 text-amber-300 border-amber-400 shadow-[0_0_10px_rgba(255,179,0,0.3)]"
                     : isGemini
-                    ? "bg-emerald-500/20 text-emerald-300 border-emerald-400 shadow-[0_0_12px_rgba(0,230,153,0.4)]"
-                    : "bg-orange-500/20 text-orange-300 border-orange-400 shadow-[0_0_12px_rgba(249,115,22,0.4)]"
+                    ? "bg-emerald-500/20 text-emerald-300 border-emerald-400 shadow-[0_0_10px_rgba(0,230,153,0.3)]"
+                    : "bg-orange-500/20 text-orange-300 border-orange-400 shadow-[0_0_10px_rgba(249,115,22,0.3)]"
                 }`}
               >
                 {isClaude ? "CL" : isGemini ? "GE" : "GP"}
@@ -419,9 +421,9 @@ export default function Dashboard() {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-400"></span>
                 </span>
               </div>
-              <div className="flex flex-col justify-center leading-tight">
-                <span className="font-extrabold text-white text-xs tracking-tight">{p.data?.agentName}</span>
-                <span className="text-[11px] text-amber-200/80 font-mono font-semibold">{p.data?.model}</span>
+              <div className="flex flex-col justify-center leading-tight truncate">
+                <span className="font-extrabold text-white text-xs tracking-tight truncate">{p.data?.agentName}</span>
+                <span className="text-[10px] text-amber-200/80 font-mono font-semibold truncate">{p.data?.model}</span>
               </div>
             </div>
           );
@@ -430,44 +432,47 @@ export default function Dashboard() {
       {
         field: "merchantName",
         headerName: "Merchant & Domain",
-        width: 230,
+        flex: 1.2,
+        minWidth: 165,
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => (
-          <div className="flex flex-col justify-center leading-tight py-1 h-full">
-            <span className="text-white text-xs font-bold">{p.data?.merchantName}</span>
-            <span className="text-[11px] text-amber-300 font-mono font-semibold tracking-tight flex items-center gap-1">
-              <ExternalLink className="w-3 h-3 text-amber-400" />
-              {p.data?.merchantDomain}
+          <div className="flex flex-col justify-center leading-tight py-1 h-full overflow-hidden">
+            <span className="text-white text-xs font-bold truncate">{p.data?.merchantName}</span>
+            <span className="text-[10px] text-amber-300 font-mono font-semibold tracking-tight flex items-center gap-1 truncate">
+              <ExternalLink className="w-2.5 h-2.5 text-amber-400 shrink-0" />
+              <span className="truncate">{p.data?.merchantDomain}</span>
             </span>
           </div>
         ),
       },
       {
         field: "amount",
-        headerName: "Amount (USD)",
-        width: 140,
+        headerName: "Amount",
+        width: 105,
+        minWidth: 95,
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => (
-          <div className="flex items-center font-mono font-black text-emerald-300 text-sm h-full">
-            <DollarSign className="w-4 h-4 text-emerald-400 mr-0.5" />
+          <div className="flex items-center font-mono font-black text-emerald-300 text-xs h-full">
+            <DollarSign className="w-3.5 h-3.5 text-emerald-400 mr-0.5 shrink-0" />
             <span className="tracking-tight">${p.value?.toFixed(2)}</span>
           </div>
         ),
       },
       {
         field: "decision",
-        headerName: "Firewall Verdict",
-        width: 165,
+        headerName: "Verdict",
+        width: 130,
+        minWidth: 120,
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => {
           const isApproved = p.value === "APPROVED";
           return (
-            <div className="flex items-center gap-2 py-1 h-full">
+            <div className="flex items-center py-1 h-full">
               <span
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black tracking-wider uppercase border ${
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-black tracking-wider uppercase border ${
                   isApproved
-                    ? "bg-emerald-950/80 text-emerald-300 border-emerald-400 shadow-[0_0_15px_-3px_rgba(0,230,153,0.5)]"
-                    : "bg-red-950/80 text-red-300 border-red-500 shadow-[0_0_15px_-3px_rgba(255,59,48,0.5)]"
+                    ? "bg-emerald-950/80 text-emerald-300 border-emerald-400 shadow-[0_0_12px_rgba(0,230,153,0.4)]"
+                    : "bg-red-950/80 text-red-300 border-red-500 shadow-[0_0_12px_rgba(255,59,48,0.4)]"
                 }`}
               >
-                {isApproved ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : <XCircle className="w-4 h-4 text-red-400" />}
+                {isApproved ? <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" /> : <XCircle className="w-3 h-3 text-red-400 shrink-0" />}
                 {p.value}
               </span>
             </div>
@@ -476,15 +481,16 @@ export default function Dashboard() {
       },
       {
         field: "riskScore",
-        headerName: "Risk Index",
-        width: 145,
+        headerName: "Risk",
+        width: 110,
+        minWidth: 100,
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => {
           const score = p.value || 0;
           const barColor = score < 30 ? "bg-emerald-400" : score < 70 ? "bg-amber-400" : "bg-red-500";
           const textColor = score < 30 ? "text-emerald-300" : score < 70 ? "text-amber-300" : "text-red-300";
           return (
-            <div className="flex items-center gap-2.5 py-1 h-full">
-              <div className="w-16 h-2.5 bg-slate-900 rounded-full overflow-hidden p-[1px] border border-white/10">
+            <div className="flex items-center gap-2 py-1 h-full">
+              <div className="w-10 h-2 bg-slate-900 rounded-full overflow-hidden p-[1px] border border-white/10 shrink-0">
                 <div className={`h-full ${barColor} rounded-full transition-all duration-500`} style={{ width: `${score}%` }} />
               </div>
               <span className={`font-mono text-xs font-bold ${textColor}`}>{score}/100</span>
@@ -494,11 +500,12 @@ export default function Dashboard() {
       },
       {
         field: "paypalOrderId",
-        headerName: "PayPal Settlement ID",
-        width: 200,
+        headerName: "PayPal Settlement",
+        flex: 1.1,
+        minWidth: 155,
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => (
-          <div className="flex items-center h-full">
-            <span className="text-xs font-mono font-bold text-amber-200 bg-amber-950/60 px-3 py-1 rounded-xl border border-amber-500/50 shadow-[0_0_10px_rgba(255,179,0,0.2)]">
+          <div className="flex items-center h-full overflow-hidden">
+            <span className="text-[11px] font-mono font-bold text-amber-200 bg-amber-950/60 px-2.5 py-0.5 rounded-lg border border-amber-500/50 shadow-[0_0_8px_rgba(255,179,0,0.2)] truncate">
               {p.value || "HOLD / NONE"}
             </span>
           </div>
@@ -506,7 +513,8 @@ export default function Dashboard() {
       },
       {
         headerName: "Trace",
-        width: 110,
+        width: 85,
+        minWidth: 75,
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => (
           <div className="flex items-center h-full">
             <button
@@ -514,9 +522,9 @@ export default function Dashboard() {
                 playAnalogSound("CLICK");
                 setSelectedTx(p.data || null);
               }}
-              className="flex items-center gap-1.5 text-xs text-white hover:text-amber-300 px-3 py-1.5 rounded-xl bg-amber-950/80 hover:bg-amber-900 border border-amber-400/80 transition shadow-[0_0_12px_rgba(255,179,0,0.3)] font-bold"
+              className="flex items-center gap-1 text-[11px] text-white hover:text-amber-300 px-2 py-1 rounded-lg bg-amber-950/80 hover:bg-amber-900 border border-amber-400/80 transition shadow-[0_0_10px_rgba(255,179,0,0.25)] font-bold"
             >
-              <Code2 className="w-3.5 h-3.5 text-amber-400" /> Audit
+              <Code2 className="w-3 h-3 text-amber-400" /> Audit
             </button>
           </div>
         ),
@@ -1155,6 +1163,7 @@ export default function Dashboard() {
                   paginationPageSize={10}
                   animateRows={true}
                   rowHeight={54}
+                  suppressHorizontalScroll={true}
                   defaultColDef={{ sortable: true, filter: true, resizable: true }}
                 />
               </div>
