@@ -1531,15 +1531,15 @@ export default function Dashboard() {
             playAnalogSound("CLICK");
             setSelectedTx(null);
           }}
-          className="fixed inset-0 bg-black/85 backdrop-blur-xl flex justify-end z-50 transition-opacity"
+          className="fixed inset-0 bg-black/85 backdrop-blur-xl flex justify-end z-50 transition-opacity overflow-hidden"
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="bg-[#0C1211] border-l border-white/10 w-full max-w-xl h-full p-6 flex flex-col justify-between shadow-2xl overflow-hidden"
+            className="bg-[#0C1211] border-l border-white/10 w-full max-w-xl h-screen max-h-screen p-5 flex flex-col justify-between shadow-2xl overflow-hidden no-scrollbar"
           >
-            <div>
-              <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
-                <div className="flex items-center gap-3">
+            <div className="overflow-hidden no-scrollbar">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
+                <div className="flex items-center gap-2.5">
                   <Code2 className="w-5 h-5 text-amber-400" />
                   <h3 className="font-extrabold text-white text-base tracking-tight">Cryptographic Trace & Rationale Audit</h3>
                 </div>
@@ -1548,20 +1548,20 @@ export default function Dashboard() {
                     playAnalogSound("CLICK");
                     setSelectedTx(null);
                   }}
-                  className="text-slate-400 hover:text-white text-sm p-1.5 rounded-xl hover:bg-slate-800 transition"
+                  className="text-slate-400 hover:text-white text-sm p-1 rounded-lg hover:bg-slate-800 transition"
                 >
                   ✕
                 </button>
               </div>
 
-              <div className="space-y-3.5 text-xs">
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="p-3 bg-slate-900/90 rounded-xl border border-white/10">
-                    <span className="text-slate-400 text-[11px] font-medium">Transaction ID</span>
+              <div className="space-y-3 text-xs">
+                <div className="grid grid-cols-2 gap-2.5">
+                  <div className="p-2.5 bg-slate-900/90 rounded-xl border border-white/10">
+                    <span className="text-slate-400 text-[10px] font-medium">Transaction ID</span>
                     <div className="font-mono text-white font-black text-sm mt-0.5">{selectedTx.id}</div>
                   </div>
-                  <div className="p-3 bg-slate-900/90 rounded-xl border border-white/10">
-                    <span className="text-slate-400 text-[11px] font-medium">Policy Verdict</span>
+                  <div className="p-2.5 bg-slate-900/90 rounded-xl border border-white/10">
+                    <span className="text-slate-400 text-[10px] font-medium">Policy Verdict</span>
                     <div className={`font-mono font-black text-sm mt-0.5 ${selectedTx.decision === "APPROVED" ? "text-emerald-400" : "text-red-400"}`}>
                       {selectedTx.decision}
                     </div>
@@ -1570,14 +1570,14 @@ export default function Dashboard() {
 
                 <div>
                   <span className="text-slate-400 font-bold block mb-1 uppercase tracking-wider text-[10px]">Autonomous Agent Internal Rationale</span>
-                  <div className="p-3 bg-black/80 rounded-xl border border-white/10 font-mono text-slate-200 leading-relaxed text-xs shadow-inner">
+                  <div className="p-2.5 bg-black/80 rounded-xl border border-white/10 font-mono text-slate-200 leading-relaxed text-xs shadow-inner">
                     &ldquo;{selectedTx.rationale}&rdquo;
                   </div>
                 </div>
 
                 <div>
                   <span className="text-slate-400 font-bold block mb-1 uppercase tracking-wider text-[10px]">GuardPay Policy Diagnostics</span>
-                  <div className="p-3 bg-black/80 rounded-xl border border-white/10 space-y-2 shadow-inner">
+                  <div className="p-2.5 bg-black/80 rounded-xl border border-white/10 space-y-1.5 shadow-inner">
                     <div className="flex justify-between">
                       <span className="text-slate-400">Risk Assessment Score:</span>
                       <span className="font-mono text-white font-bold">{selectedTx.riskScore} / 100</span>
@@ -1588,13 +1588,13 @@ export default function Dashboard() {
                         <span className="font-mono text-red-400 font-extrabold">{selectedTx.ruleTriggered}</span>
                       </div>
                     )}
-                    <div className="text-slate-300 pt-1.5 border-t border-white/10 text-[11px] leading-relaxed">{selectedTx.reasons.join(" ")}</div>
+                    <div className="text-slate-300 pt-1 border-t border-white/10 text-[11px] leading-relaxed">{selectedTx.reasons.join(" ")}</div>
                   </div>
                 </div>
 
                 <div>
                   <span className="text-slate-400 font-bold block mb-1 uppercase tracking-wider text-[10px]">PayPal Platform Execution Data</span>
-                  <div className="p-3 bg-black/80 rounded-xl border border-white/10 font-mono text-xs text-amber-300 space-y-1 shadow-inner">
+                  <div className="p-2.5 bg-black/80 rounded-xl border border-white/10 font-mono text-xs text-amber-300 space-y-1 shadow-inner">
                     <div className="flex justify-between items-center">
                       <span>PayPal Order ID:</span>
                       <span className="text-white font-bold">{selectedTx.paypalOrderId || "NOT_ISSUED"}</span>
@@ -1612,14 +1612,14 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-white/10 flex justify-between items-center">
+            <div className="pt-3 border-t border-white/10 flex justify-between items-center mt-3">
               <span className="text-[10px] font-mono text-slate-500">Press Esc or click outside to dismiss</span>
               <button
                 onClick={() => {
                   playAnalogSound("CLICK");
                   setSelectedTx(null);
                 }}
-                className="tactile-amber-btn px-6 py-2 rounded-xl text-xs"
+                className="tactile-amber-btn px-5 py-2 rounded-xl text-xs"
               >
                 Close Audit Drawer
               </button>
