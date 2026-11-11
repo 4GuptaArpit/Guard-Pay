@@ -1526,79 +1526,100 @@ export default function Dashboard() {
 
       {/* Audit Drawer */}
       {selectedTx && (
-        <div className="fixed inset-0 bg-black/85 backdrop-blur-xl flex justify-end z-50 transition-opacity">
-          <div className="bg-[#0C1211] border-l border-white/10 w-full max-w-xl h-full p-7 overflow-y-auto space-y-6 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-white/10 pb-5">
-              <div className="flex items-center gap-3">
-                <Code2 className="w-6 h-6 text-amber-400" />
-                <h3 className="font-extrabold text-white text-lg tracking-tight">Cryptographic Trace & Rationale Audit</h3>
-              </div>
-              <button
-                onClick={() => {
-                  playAnalogSound("CLICK");
-                  setSelectedTx(null);
-                }}
-                className="text-slate-400 hover:text-white text-base p-1.5 rounded-xl hover:bg-slate-800"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="space-y-5 text-xs">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 bg-slate-900 rounded-xl border border-white/10">
-                  <span className="text-slate-400 text-xs font-medium">Transaction ID</span>
-                  <div className="font-mono text-white font-black text-sm mt-1">{selectedTx.id}</div>
+        <div 
+          onClick={() => {
+            playAnalogSound("CLICK");
+            setSelectedTx(null);
+          }}
+          className="fixed inset-0 bg-black/85 backdrop-blur-xl flex justify-end z-50 transition-opacity"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="bg-[#0C1211] border-l border-white/10 w-full max-w-xl h-full p-6 flex flex-col justify-between shadow-2xl overflow-hidden"
+          >
+            <div>
+              <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+                <div className="flex items-center gap-3">
+                  <Code2 className="w-5 h-5 text-amber-400" />
+                  <h3 className="font-extrabold text-white text-base tracking-tight">Cryptographic Trace & Rationale Audit</h3>
                 </div>
-                <div className="p-4 bg-slate-900 rounded-xl border border-white/10">
-                  <span className="text-slate-400 text-xs font-medium">Policy Verdict</span>
-                  <div className={`font-mono font-black text-sm mt-1 ${selectedTx.decision === "APPROVED" ? "text-emerald-400" : "text-red-400"}`}>
-                    {selectedTx.decision}
+                <button
+                  onClick={() => {
+                    playAnalogSound("CLICK");
+                    setSelectedTx(null);
+                  }}
+                  className="text-slate-400 hover:text-white text-sm p-1.5 rounded-xl hover:bg-slate-800 transition"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div className="space-y-3.5 text-xs">
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="p-3 bg-slate-900/90 rounded-xl border border-white/10">
+                    <span className="text-slate-400 text-[11px] font-medium">Transaction ID</span>
+                    <div className="font-mono text-white font-black text-sm mt-0.5">{selectedTx.id}</div>
                   </div>
-                </div>
-              </div>
-
-              <div>
-                <span className="text-slate-400 font-bold block mb-1.5 uppercase tracking-wider text-[11px]">Autonomous Agent Internal Rationale</span>
-                <div className="p-4 bg-black/80 rounded-xl border border-white/10 font-mono text-slate-200 leading-relaxed text-xs shadow-inner">
-                  &ldquo;{selectedTx.rationale}&rdquo;
-                </div>
-              </div>
-
-              <div>
-                <span className="text-slate-400 font-bold block mb-1.5 uppercase tracking-wider text-[11px]">GuardPay Policy Diagnostics</span>
-                <div className="p-4 bg-black/80 rounded-xl border border-white/10 space-y-2.5 shadow-inner">
-                  <div className="flex justify-between">
-                    <span className="text-slate-400">Risk Assessment Score:</span>
-                    <span className="font-mono text-white font-bold">{selectedTx.riskScore} / 100</span>
-                  </div>
-                  {selectedTx.ruleTriggered && (
-                    <div className="flex justify-between">
-                      <span className="text-slate-400">Triggered Policy Rule:</span>
-                      <span className="font-mono text-red-400 font-extrabold">{selectedTx.ruleTriggered}</span>
+                  <div className="p-3 bg-slate-900/90 rounded-xl border border-white/10">
+                    <span className="text-slate-400 text-[11px] font-medium">Policy Verdict</span>
+                    <div className={`font-mono font-black text-sm mt-0.5 ${selectedTx.decision === "APPROVED" ? "text-emerald-400" : "text-red-400"}`}>
+                      {selectedTx.decision}
                     </div>
-                  )}
-                  <div className="text-slate-300 pt-2 border-t border-white/10 text-xs leading-relaxed">{selectedTx.reasons.join(" ")}</div>
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <span className="text-slate-400 font-bold block mb-1.5 uppercase tracking-wider text-[11px]">PayPal Platform Execution Data</span>
-                <div className="p-4 bg-black/80 rounded-xl border border-white/10 font-mono text-xs text-amber-300 space-y-1.5 shadow-inner">
-                  <div>PayPal Order ID: {selectedTx.paypalOrderId || "NOT_ISSUED"}</div>
-                  <div>PayPal Capture ID: {selectedTx.paypalCaptureId || "NOT_CAPTURED"}</div>
-                  <div>Payment Rail: PayPal Sandbox Orders v2 (REST)</div>
+                <div>
+                  <span className="text-slate-400 font-bold block mb-1 uppercase tracking-wider text-[10px]">Autonomous Agent Internal Rationale</span>
+                  <div className="p-3 bg-black/80 rounded-xl border border-white/10 font-mono text-slate-200 leading-relaxed text-xs shadow-inner">
+                    &ldquo;{selectedTx.rationale}&rdquo;
+                  </div>
+                </div>
+
+                <div>
+                  <span className="text-slate-400 font-bold block mb-1 uppercase tracking-wider text-[10px]">GuardPay Policy Diagnostics</span>
+                  <div className="p-3 bg-black/80 rounded-xl border border-white/10 space-y-2 shadow-inner">
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">Risk Assessment Score:</span>
+                      <span className="font-mono text-white font-bold">{selectedTx.riskScore} / 100</span>
+                    </div>
+                    {selectedTx.ruleTriggered && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">Triggered Policy Rule:</span>
+                        <span className="font-mono text-red-400 font-extrabold">{selectedTx.ruleTriggered}</span>
+                      </div>
+                    )}
+                    <div className="text-slate-300 pt-1.5 border-t border-white/10 text-[11px] leading-relaxed">{selectedTx.reasons.join(" ")}</div>
+                  </div>
+                </div>
+
+                <div>
+                  <span className="text-slate-400 font-bold block mb-1 uppercase tracking-wider text-[10px]">PayPal Platform Execution Data</span>
+                  <div className="p-3 bg-black/80 rounded-xl border border-white/10 font-mono text-xs text-amber-300 space-y-1 shadow-inner">
+                    <div className="flex justify-between items-center">
+                      <span>PayPal Order ID:</span>
+                      <span className="text-white font-bold">{selectedTx.paypalOrderId || "NOT_ISSUED"}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>PayPal Capture ID:</span>
+                      <span className="text-white font-bold">{selectedTx.paypalCaptureId || "NOT_CAPTURED"}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Payment Rail:</span>
+                      <span className="text-emerald-400 font-semibold">PayPal Orders v2 (REST)</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="pt-5 border-t border-white/10 flex justify-end">
+            <div className="pt-4 border-t border-white/10 flex justify-between items-center">
+              <span className="text-[10px] font-mono text-slate-500">Press Esc or click outside to dismiss</span>
               <button
                 onClick={() => {
                   playAnalogSound("CLICK");
                   setSelectedTx(null);
                 }}
-                className="tactile-amber-btn px-6 py-2.5 rounded-xl text-xs"
+                className="tactile-amber-btn px-6 py-2 rounded-xl text-xs"
               >
                 Close Audit Drawer
               </button>
