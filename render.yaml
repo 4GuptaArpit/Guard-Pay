@@ -3,7 +3,7 @@ services:
     name: guardpay-backend
     env: node
     plan: free
-    buildCommand: npm install && npm --workspace=backend run build
+    buildCommand: npm install --include=dev && npm --workspace=backend run build
     startCommand: npm --workspace=backend run start
     envVars:
       - key: NODE_ENV
@@ -21,7 +21,7 @@ services:
     name: guardpay-dashboard
     env: node
     plan: free
-    buildCommand: npm install && npm --workspace=dashboard run build
+    buildCommand: npm install --include=dev && npm --workspace=dashboard run build
     startCommand: npm --workspace=dashboard run start
     envVars:
       - key: NODE_ENV

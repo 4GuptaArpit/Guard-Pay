@@ -23,6 +23,12 @@
     "render",
     "fintech"
   ],
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/ws": "^8.5.13",
+    "@types/jsonwebtoken": "^9.0.7",
+    "typescript": "^5.7.2"
+  },
   "author": "GuardPay Team",
   "license": "MIT"
 }
