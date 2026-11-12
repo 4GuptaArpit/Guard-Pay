@@ -1182,6 +1182,7 @@ export default function Dashboard() {
                   columnDefs={colDefs}
                   pagination={true}
                   paginationPageSize={10}
+                  paginationPageSizeSelector={[10, 20, 50, 100]}
                   animateRows={true}
                   rowHeight={54}
                   suppressHorizontalScroll={true}
