@@ -6,6 +6,11 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 export const metadata: Metadata = {
   title: "GuardPay — Autonomous AI Agent Telemetry & PayPal Gateway",
   description: "Policy-Bound Autonomous AI Agent Wallets with PayPal Developer Platform & AG Grid",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+  },
 };
 
 export default function RootLayout({

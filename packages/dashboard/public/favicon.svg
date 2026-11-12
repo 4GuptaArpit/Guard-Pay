@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="shield-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080E0C" />
+      <stop offset="50%" stop-color="#111C19" />
+      <stop offset="100%" stop-color="#050807" />
+    </linearGradient>
+
+    <!-- Amber Gold Gradient -->
+    <linearGradient id="amber-core" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE082" />
+      <stop offset="45%" stop-color="#FFB300" />
+      <stop offset="100%" stop-color="#FF8F00" />
+    </linearGradient>
+
+    <!-- Cyan Electric Gradient -->
+    <linearGradient id="cyan-bolt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A7F3D0" />
+      <stop offset="50%" stop-color="#00E699" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <!-- Outer Glow Filter -->
+    <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="2.5" flood-color="#FFB300" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Dark Rounded Container / Tactile Synth Base -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#shield-bg)" stroke="#223631" stroke-width="2" />
+
+  <!-- Inner Hardware Groove -->
+  <rect x="6" y="6" width="52" height="52" rx="10" fill="none" stroke="#162421" stroke-width="1.2" stroke-dasharray="2,2" />
+
+  <!-- Cryptographic Security Shield Outer Contour -->
+  <path d="M 32 10 
+           C 42 10, 48 13, 49 15
+           C 49 28, 44 43, 32 52
+           C 20 43, 15 28, 15 15
+           C 16 13, 22 10, 32 10 Z" 
+        fill="#0D1614" 
+        stroke="url(#amber-core)" 
+        stroke-width="2.5" 
+        stroke-linejoin="round"
+        filter="url(#neon-glow)" />
+
+  <!-- Internal Circuit Node Grid -->
+  <circle cx="32" cy="19" r="2" fill="#00E699" />
+  <line x1="32" y1="21" x2="32" y2="25" stroke="#00E699" stroke-width="1.5" />
+
+  <!-- PayPal Double-P & Lightning Bolt Synthesizer Hybrid -->
+  <!-- Upper Loop -->
+  <path d="M 28 25
+           L 36 25
+           C 39 25, 41 27, 41 30
+           C 41 33, 39 35, 36 35
+           L 31 35
+           L 27 45"
+        fill="none"
+        stroke="url(#amber-core)"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round" />
+
+  <!-- Cyber Flash / Spark Accent -->
+  <polygon points="34,31 31,37 35,37 32,44 38,36 34,36" fill="url(#cyan-bolt)" />
+
+  <!-- Corner Hardware Accents -->
+  <circle cx="8" cy="8" r="1.5" fill="#FFB300" opacity="0.6" />
+  <circle cx="56" cy="8" r="1.5" fill="#FFB300" opacity="0.6" />
+  <circle cx="8" cy="56" r="1.5" fill="#FFB300" opacity="0.6" />
+  <circle cx="56" cy="56" r="1.5" fill="#00E699" opacity="0.8" />
+</svg>
