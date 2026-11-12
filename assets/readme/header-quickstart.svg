@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 80" width="100%" height="auto">
+  <title>10-Second Quickstart &amp; Verification Suite Header</title>
+  <defs>
+    <linearGradient id="header-grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0E1715" />
+      <stop offset="50%" stop-color="#142320" />
+      <stop offset="100%" stop-color="#0E1715" />
+    </linearGradient>
+  </defs>
+  <style>
+    .mono { font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace; }
+    .sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  </style>
+  <rect width="1200" height="80" rx="10" fill="url(#header-grad2)" stroke="#223632" stroke-width="1.2" />
+  <circle cx="36" cy="40" r="14" fill="#1C2F2B" stroke="#FFB300" stroke-width="1.5" />
+  <text x="32" y="46" class="mono" font-size="16" font-weight="900" fill="#FFB300">&gt;</text>
+  <text x="64" y="36" class="sans" font-size="20" font-weight="800" fill="#FFFFFF">10-SECOND QUICKSTART &amp; VERIFICATION SUITE</text>
+  <text x="64" y="56" class="mono" font-size="12" font-weight="600" fill="#FFB300">INSTANT CLI REPRODUCTION • ADVERSARIAL ATTACK SIMULATION • LIVE TELEMETRY</text>
+  <rect x="1060" y="24" width="105" height="32" rx="6" fill="#1A2D28" stroke="#2B463F" stroke-width="1" />
+  <text x="1076" y="45" class="mono" font-size="11" font-weight="700" fill="#00E699">READY-TO-RUN</text>
+</svg>

@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 440" width="100%" height="auto" preserveAspectRatio="xMidYMid meet">
+  <title>GuardPay Hero Banner - The Cryptographic Policy Firewall &amp; Settlement Gateway for Autonomous AI Agents</title>
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080D0C" />
+      <stop offset="60%" stop-color="#0C1412" />
+      <stop offset="100%" stop-color="#060908" />
+    </linearGradient>
+
+    <!-- Amber Glow -->
+    <linearGradient id="amber-glow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFB300" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#FF8F00" stop-opacity="0.2" />
+    </linearGradient>
+
+    <!-- Card Background -->
+    <linearGradient id="card-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#141E1C" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0A100F" stop-opacity="0.95" />
+    </linearGradient>
+
+    <!-- Subtle Grid Pattern -->
+    <pattern id="synth-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#1F2D2A" stroke-width="0.75" stroke-opacity="0.4" />
+      <circle cx="0" cy="0" r="1" fill="#FFB300" fill-opacity="0.25" />
+    </pattern>
+
+    <!-- Hardware Perforation Strip -->
+    <pattern id="hardware-dots" width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="8" cy="8" r="1.5" fill="#1B2B27" />
+    </pattern>
+  </defs>
+
+  <style>
+    .mono { font-family: "SF Mono", "Fira Code", "Cascadia Code", "Courier New", monospace; }
+    .sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .gold-glow { filter: drop-shadow(0 0 8px rgba(255, 179, 0, 0.45)); }
+    .cyan-glow { filter: drop-shadow(0 0 6px rgba(0, 230, 153, 0.35)); }
+  </style>
+
+  <!-- Base Canvas -->
+  <rect width="1200" height="440" rx="16" fill="url(#bg-grad)" stroke="#1F2E2B" stroke-width="1.5" />
+  <rect width="1200" height="440" rx="16" fill="url(#synth-grid)" />
+
+  <!-- Hardware Perforation Accent Rail (Top) -->
+  <rect x="24" y="20" width="1152" height="12" fill="url(#hardware-dots)" rx="6" />
+
+  <!-- LEFT PANEL: Hero Identity & Core Proposition -->
+  <g transform="translate(60, 68)">
+    <!-- Category Micro-Pill -->
+    <rect x="0" y="0" width="245" height="28" rx="6" fill="#162521" stroke="#283E38" stroke-width="1" />
+    <circle cx="14" cy="14" r="4" fill="#00E699" class="cyan-glow" />
+    <text x="26" y="19" class="mono" font-size="11" font-weight="700" fill="#00E699" letter-spacing="1.2">AUTONOMOUS AGENT COMMERCE</text>
+
+    <!-- Main Title: GuardPay -->
+    <g transform="translate(0, 72)">
+      <text x="0" y="0" class="sans" font-size="52" font-weight="800" fill="#FFFFFF" letter-spacing="-1.5">
+        GUARD<tspan fill="#FFB300" class="gold-glow">PAY</tspan>
+      </text>
+      <!-- Sub-headline -->
+      <text x="2" y="34" class="sans" font-size="19" font-weight="500" fill="#A4B8B2" letter-spacing="-0.2">
+        The Cryptographic Policy Firewall &amp; Settlement Gateway
+      </text>
+      <text x="2" y="60" class="mono" font-size="13" font-weight="500" fill="#00E699" letter-spacing="0.5">
+        Autonomous AI Agents  ⇄  Dual-Key Scope  ⇄  PayPal Rails
+      </text>
+    </g>
+
+    <!-- Hardware Dial / Metric Pill Matrix -->
+    <g transform="translate(0, 202)">
+      <!-- Metric 1: Policy Latency -->
+      <g transform="translate(0, 0)">
+        <rect width="150" height="74" rx="8" fill="url(#card-grad)" stroke="#223632" stroke-width="1" />
+        <text x="14" y="24" class="mono" font-size="10" font-weight="600" fill="#758E87" letter-spacing="0.8">GATEWAY LATENCY</text>
+        <text x="14" y="52" class="mono" font-size="22" font-weight="800" fill="#00E699">1.8 ms</text>
+        <circle cx="132" cy="22" r="3" fill="#00E699" />
+      </g>
+
+      <!-- Metric 2: Ephemeral TTL -->
+      <g transform="translate(162, 0)">
+        <rect width="150" height="74" rx="8" fill="url(#card-grad)" stroke="#223632" stroke-width="1" />
+        <text x="14" y="24" class="mono" font-size="10" font-weight="600" fill="#758E87" letter-spacing="0.8">TOKEN EXPIRY</text>
+        <text x="14" y="52" class="mono" font-size="22" font-weight="800" fill="#FFB300">120 sec</text>
+        <circle cx="132" cy="22" r="3" fill="#FFB300" />
+      </g>
+
+      <!-- Metric 3: Threat Deflection -->
+      <g transform="translate(324, 0)">
+        <rect width="150" height="74" rx="8" fill="url(#card-grad)" stroke="#223632" stroke-width="1" />
+        <text x="14" y="24" class="mono" font-size="10" font-weight="600" fill="#758E87" letter-spacing="0.8">PROMPT DEFENSE</text>
+        <text x="14" y="52" class="mono" font-size="22" font-weight="800" fill="#FF5252">100 %</text>
+        <circle cx="132" cy="22" r="3" fill="#FF5252" />
+      </g>
+    </g>
+
+    <!-- Hackathon Track Pill -->
+    <g transform="translate(0, 304)">
+      <rect width="474" height="28" rx="6" fill="#0E1917" stroke="#1D302C" stroke-width="1" />
+      <text x="14" y="18" class="mono" font-size="11" font-weight="600" fill="#D4AF37">
+        ★ Built for PayPal Global AI Hackathon • Orders v2 + Invoicing + Payouts
+      </text>
+    </g>
+  </g>
+
+  <!-- RIGHT PANEL: Live Synthesizer Hardware Console Terminal -->
+  <g transform="translate(600, 60)">
+    <!-- Terminal Outer Frame -->
+    <rect width="540" height="344" rx="12" fill="#090E0D" stroke="#253A35" stroke-width="1.5" />
+    
+    <!-- Console Header / Hardware LED Rail -->
+    <rect width="540" height="38" rx="12" fill="#121D1A" />
+    <rect y="26" width="540" height="12" fill="#121D1A" />
+    <line x1="0" y1="38" x2="540" y2="38" stroke="#253A35" stroke-width="1" />
+    
+    <!-- Knobs & LEDs -->
+    <circle cx="24" cy="19" r="5" fill="#FF5252" />
+    <circle cx="40" cy="19" r="5" fill="#FFB300" />
+    <circle cx="56" cy="19" r="5" fill="#00E699" />
+    
+    <text x="80" y="23" class="mono" font-size="11" font-weight="700" fill="#8FA8A1" letter-spacing="1">
+      GUARDPAY :: ANALOG CRYPTO TELEMETRY
+    </text>
+    <rect x="440" y="10" width="84" height="18" rx="4" fill="#1C2D29" />
+    <text x="452" y="23" class="mono" font-size="9" font-weight="700" fill="#00E699">FEED ACTIVE</text>
+
+    <!-- Telemetry Log Entry 1: Claude Approved -->
+    <g transform="translate(18, 54)">
+      <rect width="504" height="66" rx="8" fill="#0F1715" stroke="#1F332D" stroke-width="1" />
+      <circle cx="16" cy="20" r="4" fill="#00E699" />
+      <text x="28" y="24" class="mono" font-size="12" font-weight="700" fill="#FFFFFF">TX-1001 • Claude 3.7 Sonnet</text>
+      <text x="390" y="24" class="mono" font-size="12" font-weight="700" fill="#00E699">APPROVED</text>
+      <text x="28" y="44" class="sans" font-size="11" fill="#889E97">ArXiv High-Speed PDF Mirror • $14.50 USD • Risk 12/100</text>
+      <rect x="28" y="49" width="168" height="12" rx="3" fill="#172723" />
+      <text x="32" y="58" class="mono" font-size="9" fill="#FFB300">PayPal ORD-PP-78F9B2A1</text>
+    </g>
+
+    <!-- Telemetry Log Entry 2: Adversarial Injection Deflected -->
+    <g transform="translate(18, 128)">
+      <rect width="504" height="66" rx="8" fill="#170F10" stroke="#441E22" stroke-width="1" />
+      <circle cx="16" cy="20" r="4" fill="#FF5252" />
+      <text x="28" y="24" class="mono" font-size="12" font-weight="700" fill="#FF7B7B">TX-9533 • Adversarial Prompt Hijack</text>
+      <text x="398" y="24" class="mono" font-size="12" font-weight="700" fill="#FF5252">BLOCKED</text>
+      <text x="28" y="44" class="sans" font-size="11" fill="#B3888B">Transfer $850.00 to dark-crypto-bridge.io • Velocity &amp; Whitelist Trip</text>
+      <rect x="28" y="49" width="168" height="12" rx="3" fill="#2E1719" />
+      <text x="32" y="58" class="mono" font-size="9" fill="#FF7B7B">PAYPAL RAILS HALTED (0ms)</text>
+    </g>
+
+    <!-- Telemetry Log Entry 3: Gemini Subcontractor Settlement -->
+    <g transform="translate(18, 202)">
+      <rect width="504" height="66" rx="8" fill="#0F1715" stroke="#1F332D" stroke-width="1" />
+      <circle cx="16" cy="20" r="4" fill="#00E699" />
+      <text x="28" y="24" class="mono" font-size="12" font-weight="700" fill="#FFFFFF">TX-1044 • Gemini 2.5 Pro</text>
+      <text x="390" y="24" class="mono" font-size="12" font-weight="700" fill="#00E699">APPROVED</text>
+      <text x="28" y="44" class="sans" font-size="11" fill="#889E97">Subcontractor Scraper Agent • $5.00 USD • Risk 8/100</text>
+      <rect x="28" y="49" width="168" height="12" rx="3" fill="#172723" />
+      <text x="32" y="58" class="mono" font-size="9" fill="#00E699">PayPal Payout BATCH-1794</text>
+    </g>
+
+    <!-- Console Hardware Footer Dial Strip -->
+    <g transform="translate(18, 282)">
+      <line x1="0" y1="0" x2="504" y2="0" stroke="#223632" stroke-width="1" />
+      <text x="0" y="18" class="mono" font-size="10" fill="#6A857E">ROTARY FREQ: 440 Hz</text>
+      <text x="140" y="18" class="mono" font-size="10" fill="#6A857E">ENCRYPTION: ED25519</text>
+      <text x="310" y="18" class="mono" font-size="10" fill="#6A857E">PROTOCOL: MODEL CONTEXT (MCP)</text>
+      <text x="470" y="18" class="mono" font-size="10" font-weight="700" fill="#FFB300">LIVE</text>
+    </g>
+  </g>
+</svg>

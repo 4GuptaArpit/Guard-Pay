@@ -1,0 +1,192 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" width="100%" height="auto" preserveAspectRatio="xMidYMid meet">
+  <title>GuardPay 4-Tier Security Architecture Topology Diagram</title>
+  <defs>
+    <linearGradient id="diag-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070C0B" />
+      <stop offset="100%" stop-color="#0C1413" />
+    </linearGradient>
+
+    <linearGradient id="card-grad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#141E1C" />
+      <stop offset="100%" stop-color="#0D1413" />
+    </linearGradient>
+
+    <pattern id="diag-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#162320" stroke-width="0.75" />
+    </pattern>
+
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#00E699" />
+    </marker>
+    <marker id="arrow-gold" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#FFB300" />
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#FF5252" />
+    </marker>
+  </defs>
+
+  <style>
+    .mono { font-family: "SF Mono", "Fira Code", "Cascadia Code", "Courier New", monospace; }
+    .sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  </style>
+
+  <!-- Background -->
+  <rect width="1200" height="480" rx="16" fill="url(#diag-bg)" stroke="#1F2E2B" stroke-width="1.5" />
+  <rect width="1200" height="480" rx="16" fill="url(#diag-grid)" />
+
+  <!-- Top Navigation Header -->
+  <g transform="translate(40, 28)">
+    <text x="0" y="0" class="mono" font-size="11" font-weight="700" fill="#00E699" letter-spacing="1.5">GUARDPAY TOPOLOGY :: 4-TIER SECURITY SPECIFICATION</text>
+    <text x="0" y="20" class="sans" font-size="22" font-weight="700" fill="#FFFFFF">How Autonomous Intent Becomes Cryptographically Settled Fiat</text>
+  </g>
+
+  <!-- COLUMN 1: Autonomous AI Agents (Left) -->
+  <g transform="translate(40, 90)">
+    <rect width="240" height="340" rx="12" fill="url(#card-grad2)" stroke="#223632" stroke-width="1.5" />
+    <rect width="240" height="34" rx="12" fill="#14211E" />
+    <rect y="22" width="240" height="12" fill="#14211E" />
+    <text x="16" y="22" class="mono" font-size="11" font-weight="700" fill="#00E699">1. AUTONOMOUS AGENTS</text>
+
+    <!-- Node 1: Claude -->
+    <g transform="translate(14, 48)">
+      <rect width="212" height="74" rx="8" fill="#0A100F" stroke="#1D2E2A" stroke-width="1" />
+      <text x="12" y="24" class="sans" font-size="13" font-weight="700" fill="#FFFFFF">Claude 3.7 Sonnet</text>
+      <text x="12" y="42" class="mono" font-size="10" fill="#889E97">Autonomous Research Bot</text>
+      <text x="12" y="60" class="mono" font-size="9" fill="#00E699">Intent: Compute &amp; Dataset</text>
+    </g>
+
+    <!-- Node 2: Gemini -->
+    <g transform="translate(14, 134)">
+      <rect width="212" height="74" rx="8" fill="#0A100F" stroke="#1D2E2A" stroke-width="1" />
+      <text x="12" y="24" class="sans" font-size="13" font-weight="700" fill="#FFFFFF">Gemini 2.5 Pro</text>
+      <text x="12" y="42" class="mono" font-size="10" fill="#889E97">Procurement Agent</text>
+      <text x="12" y="60" class="mono" font-size="9" fill="#00E699">Intent: A2A Subcontracting</text>
+    </g>
+
+    <!-- Node 3: Adversarial Hijack -->
+    <g transform="translate(14, 220)">
+      <rect width="212" height="74" rx="8" fill="#140B0D" stroke="#3D1A1F" stroke-width="1" />
+      <text x="12" y="24" class="sans" font-size="13" font-weight="700" fill="#FF7B7B">Adversarial Hijacker</text>
+      <text x="12" y="42" class="mono" font-size="10" fill="#BA898D">Prompt Injected Agent</text>
+      <text x="12" y="60" class="mono" font-size="9" fill="#FF5252">Intent: Offshore Drain ($850)</text>
+    </g>
+
+    <text x="16" y="324" class="mono" font-size="9" fill="#586E68">Open Standard: MCP stdio tools</text>
+  </g>
+
+  <!-- Connector from Col 1 to Col 2 -->
+  <path d="M 280 175 L 340 175" stroke="#00E699" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arrow)" />
+  <path d="M 280 300 L 340 300" stroke="#FF5252" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arrow-red)" />
+
+  <!-- COLUMN 2: Model Context Protocol (MCP) -->
+  <g transform="translate(345, 90)">
+    <rect width="210" height="340" rx="12" fill="url(#card-grad2)" stroke="#223632" stroke-width="1.5" />
+    <rect width="210" height="34" rx="12" fill="#14211E" />
+    <rect y="22" width="210" height="12" fill="#14211E" />
+    <text x="16" y="22" class="mono" font-size="11" font-weight="700" fill="#00E699">2. MCP PROTOCOL</text>
+
+    <!-- Stdio Tools -->
+    <g transform="translate(12, 48)">
+      <rect width="186" height="66" rx="6" fill="#0A100F" stroke="#1D2E2A" stroke-width="1" />
+      <text x="10" y="22" class="mono" font-size="10" font-weight="700" fill="#FFB300">request_spend_auth</text>
+      <text x="10" y="38" class="sans" font-size="10" fill="#889E97">• merchant domain</text>
+      <text x="10" y="52" class="sans" font-size="10" fill="#889E97">• max spend cap ($)</text>
+    </g>
+
+    <g transform="translate(12, 126)">
+      <rect width="186" height="66" rx="6" fill="#0A100F" stroke="#1D2E2A" stroke-width="1" />
+      <text x="10" y="22" class="mono" font-size="10" font-weight="700" fill="#00E699">check_agent_budget</text>
+      <text x="10" y="38" class="sans" font-size="10" fill="#889E97">• 24h rolling velocity</text>
+      <text x="10" y="52" class="sans" font-size="10" fill="#889E97">• authorized category</text>
+    </g>
+
+    <g transform="translate(12, 204)">
+      <rect width="186" height="84" rx="6" fill="#0A100F" stroke="#1D2E2A" stroke-width="1" />
+      <text x="10" y="22" class="mono" font-size="10" font-weight="700" fill="#38BDF8">negotiate_invoice_rfp</text>
+      <text x="10" y="38" class="sans" font-size="10" fill="#889E97">• multi-agent bids</text>
+      <text x="10" y="52" class="sans" font-size="10" fill="#889E97">• dispute resolution</text>
+      <text x="10" y="66" class="sans" font-size="10" fill="#889E97">• automated arbitration</text>
+    </g>
+
+    <text x="14" y="324" class="mono" font-size="9" fill="#586E68">Zero Raw API Credentials</text>
+  </g>
+
+  <!-- Connector from Col 2 to Col 3 -->
+  <path d="M 555 240 L 610 240" stroke="#00E699" stroke-width="2" marker-end="url(#arrow)" />
+
+  <!-- COLUMN 3: GuardPay Policy Firewall Core -->
+  <g transform="translate(615, 90)">
+    <rect width="280" height="340" rx="12" fill="url(#card-grad2)" stroke="#FFB300" stroke-width="1.5" />
+    <rect width="280" height="34" rx="12" fill="#241B08" />
+    <rect y="22" width="280" height="12" fill="#241B08" />
+    <text x="16" y="22" class="mono" font-size="11" font-weight="700" fill="#FFB300">3. GUARDPAY FIREWALL</text>
+
+    <!-- Firewall Submodules -->
+    <g transform="translate(14, 48)">
+      <rect width="252" height="60" rx="6" fill="#0C1513" stroke="#2B403A" stroke-width="1" />
+      <text x="12" y="20" class="sans" font-size="11" font-weight="700" fill="#FFFFFF">1. Heuristic Risk &amp; Injection Guard</text>
+      <text x="12" y="38" class="mono" font-size="10" fill="#FF5252">Deflects hijacked malicious prompts</text>
+      <circle cx="236" cy="24" r="4" fill="#FF5252" />
+    </g>
+
+    <g transform="translate(14, 118)">
+      <rect width="252" height="60" rx="6" fill="#0C1513" stroke="#2B403A" stroke-width="1" />
+      <text x="12" y="20" class="sans" font-size="11" font-weight="700" fill="#FFFFFF">2. Rolling Velocity &amp; Per-Tx Caps</text>
+      <text x="12" y="38" class="mono" font-size="10" fill="#00E699">Max $25/tx • 24h Cap $100</text>
+      <circle cx="236" cy="24" r="4" fill="#00E699" />
+    </g>
+
+    <g transform="translate(14, 188)">
+      <rect width="252" height="60" rx="6" fill="#0C1513" stroke="#2B403A" stroke-width="1" />
+      <text x="12" y="20" class="sans" font-size="11" font-weight="700" fill="#FFFFFF">3. Cryptographic Dual-Key Token</text>
+      <text x="12" y="38" class="mono" font-size="10" fill="#FFB300">Ed25519 Signed • 120s Ephemeral Scope</text>
+      <circle cx="236" cy="24" r="4" fill="#FFB300" />
+    </g>
+
+    <g transform="translate(14, 258)">
+      <rect width="252" height="48" rx="6" fill="#0C1513" stroke="#2B403A" stroke-width="1" />
+      <text x="12" y="20" class="sans" font-size="11" font-weight="700" fill="#FFFFFF">4. WebSocket Telemetry Publisher</text>
+      <text x="12" y="36" class="mono" font-size="10" fill="#38BDF8">Real-time emit to AG Grid Console</text>
+    </g>
+
+    <text x="16" y="324" class="mono" font-size="9" fill="#8FA8A1">Evaluated in sub-2ms on Node/Express</text>
+  </g>
+
+  <!-- Connector from Col 3 to Col 4 -->
+  <path d="M 895 240 L 950 240" stroke="#FFB300" stroke-width="2" marker-end="url(#arrow-gold)" />
+
+  <!-- COLUMN 4: PayPal Developer Platform (Right) -->
+  <g transform="translate(955, 90)">
+    <rect width="205" height="340" rx="12" fill="url(#card-grad2)" stroke="#003087" stroke-width="1.5" />
+    <rect width="205" height="34" rx="12" fill="#001C54" />
+    <rect y="22" width="205" height="12" fill="#001C54" />
+    <text x="16" y="22" class="mono" font-size="11" font-weight="700" fill="#38BDF8">4. PAYPAL RAILS</text>
+
+    <!-- Rail 1: Orders v2 -->
+    <g transform="translate(12, 48)">
+      <rect width="181" height="66" rx="6" fill="#0A100F" stroke="#102E4E" stroke-width="1" />
+      <text x="10" y="22" class="sans" font-size="11" font-weight="700" fill="#FFFFFF">Orders v2 REST</text>
+      <text x="10" y="38" class="mono" font-size="9" fill="#00E699">✓ Authorize Intent</text>
+      <text x="10" y="52" class="mono" font-size="9" fill="#00E699">✓ Instant Capture</text>
+    </g>
+
+    <!-- Rail 2: Invoicing v2 -->
+    <g transform="translate(12, 126)">
+      <rect width="181" height="66" rx="6" fill="#0A100F" stroke="#102E4E" stroke-width="1" />
+      <text x="10" y="22" class="sans" font-size="11" font-weight="700" fill="#FFFFFF">Invoicing v2 API</text>
+      <text x="10" y="38" class="mono" font-size="9" fill="#FFB300">✓ Tax Compliant PDF</text>
+      <text x="10" y="52" class="mono" font-size="9" fill="#FFB300">✓ Escrow Dispute Hold</text>
+    </g>
+
+    <!-- Rail 3: Payouts API -->
+    <g transform="translate(12, 204)">
+      <rect width="181" height="66" rx="6" fill="#0A100F" stroke="#102E4E" stroke-width="1" />
+      <text x="10" y="22" class="sans" font-size="11" font-weight="700" fill="#FFFFFF">Payouts Batch API</text>
+      <text x="10" y="38" class="mono" font-size="9" fill="#38BDF8">✓ A2A Micro-Settlement</text>
+      <text x="10" y="52" class="mono" font-size="9" fill="#38BDF8">✓ Subcontractor Split</text>
+    </g>
+
+    <text x="12" y="324" class="mono" font-size="9" fill="#5E7C99">HMAC Webhook Verified</text>
+  </g>
+</svg>
