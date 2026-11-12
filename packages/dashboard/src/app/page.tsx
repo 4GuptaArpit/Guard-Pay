@@ -645,10 +645,10 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="relative min-h-screen analog-mesh text-slate-100 selection:bg-amber-400 selection:text-black">
+    <div className="relative min-h-screen analog-mesh text-slate-100 selection:bg-amber-400 selection:text-black overflow-x-hidden">
       {/* Ambient Warm Amber Glow Spotlights */}
-      <div className="absolute top-0 left-1/3 w-[650px] h-[350px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none z-0" />
-      <div className="absolute top-1/2 right-1/4 w-[500px] h-[300px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none z-0" />
+      <div className="absolute top-0 left-1/3 w-[650px] max-w-full h-[350px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none z-0" />
+      <div className="absolute top-1/2 right-1/4 w-[500px] max-w-full h-[300px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none z-0" />
 
       {recentAlert && (
         <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 animate-bounce">
@@ -1175,25 +1175,26 @@ export default function Dashboard() {
               </div>
 
               {/* High Contrast Quartz-Dark Grid */}
-              <div className="ag-theme-quartz-dark w-full h-[460px] rounded-2xl overflow-hidden border border-amber-500/25 shadow-2xl">
-                <AgGridReact
-                  theme="legacy"
-                  rowData={filteredData}
-                  columnDefs={colDefs}
-                  pagination={true}
-                  paginationPageSize={10}
-                  paginationPageSizeSelector={[10, 20, 50, 100]}
-                  animateRows={true}
-                  rowHeight={54}
-                  suppressHorizontalScroll={true}
-                  defaultColDef={{ sortable: true, filter: true, resizable: true }}
-                  onGridReady={(params) => {
-                    params.api.sizeColumnsToFit();
-                  }}
-                  onGridSizeChanged={(params) => {
-                    params.api.sizeColumnsToFit();
-                  }}
-                />
+              <div className="ag-theme-quartz-dark w-full h-[460px] rounded-2xl overflow-x-auto overflow-y-hidden border border-amber-500/25 shadow-2xl">
+                <div className="min-w-[760px] h-full">
+                  <AgGridReact
+                    theme="legacy"
+                    rowData={filteredData}
+                    columnDefs={colDefs}
+                    pagination={true}
+                    paginationPageSize={10}
+                    paginationPageSizeSelector={[10, 20, 50, 100]}
+                    animateRows={true}
+                    rowHeight={54}
+                    defaultColDef={{ sortable: true, filter: true, resizable: true }}
+                    onGridReady={(params) => {
+                      params.api.sizeColumnsToFit();
+                    }}
+                    onGridSizeChanged={(params) => {
+                      params.api.sizeColumnsToFit();
+                    }}
+                  />
+                </div>
               </div>
             </section>
           </div>
