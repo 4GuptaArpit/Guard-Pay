@@ -2,7 +2,7 @@ services:
   - type: web
     name: guardpay-backend
     env: node
-    plan: starter
+    plan: free
     rootDir: packages/backend
     buildCommand: npm install && npm run build
     startCommand: npm start
@@ -21,7 +21,7 @@ services:
   - type: web
     name: guardpay-dashboard
     env: node
-    plan: starter
+    plan: free
     rootDir: packages/dashboard
     buildCommand: npm install && npm run build
     startCommand: npm start
