@@ -3,9 +3,8 @@ services:
     name: guardpay-backend
     env: node
     plan: free
-    rootDir: packages/backend
-    buildCommand: npm install && npm run build
-    startCommand: npm start
+    buildCommand: npm install && npm --workspace=backend run build
+    startCommand: npm --workspace=backend run start
     envVars:
       - key: NODE_ENV
         value: production
@@ -22,9 +21,8 @@ services:
     name: guardpay-dashboard
     env: node
     plan: free
-    rootDir: packages/dashboard
-    buildCommand: npm install && npm run build
-    startCommand: npm start
+    buildCommand: npm install && npm --workspace=dashboard run build
+    startCommand: npm --workspace=dashboard run start
     envVars:
       - key: NODE_ENV
         value: production
