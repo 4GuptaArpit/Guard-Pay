@@ -115,11 +115,39 @@ interface NegotiationStep {
   timestamp: string;
 }
 
-const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
-const API_BASE = rawApiUrl.startsWith("http") ? rawApiUrl : `https://${rawApiUrl}`;
-const WS_URL = API_BASE.replace(/^http/, "ws") + "/ws";
+const getBackendUrls = () => {
+  // If explicitly provided via NEXT_PUBLIC_API_URL and not a localhost default on production
+  if (typeof window !== "undefined") {
+    const envUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (envUrl && !envUrl.includes("localhost")) {
+      const normalized = envUrl.startsWith("http") ? envUrl : `https://${envUrl}`;
+      return {
+        apiBase: normalized,
+        wsUrl: normalized.replace(/^http/, "ws") + "/ws",
+      };
+    }
+
+    // Dynamic derivation: on Render or production domain, connect directly to guardpay-backend
+    const currentHost = window.location.hostname;
+    if (currentHost.includes("onrender.com")) {
+      const backendHost = currentHost.replace("guardpay-dashboard", "guardpay-backend");
+      return {
+        apiBase: `https://${backendHost}`,
+        wsUrl: `wss://${backendHost}/ws`,
+      };
+    }
+  }
+
+  const raw = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+  const apiBase = raw.startsWith("http") ? raw : `https://${raw}`;
+  return {
+    apiBase,
+    wsUrl: apiBase.replace(/^http/, "ws") + "/ws",
+  };
+};
 
 export default function Dashboard() {
+  const { apiBase: API_BASE, wsUrl: WS_URL } = useMemo(() => getBackendUrls(), []);
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<"TELEMETRY" | "STREAM" | "NEGOTIATION" | "POLICIES" | "INVOICES">("TELEMETRY");
   const [transactions, setTransactions] = useState<TransactionRecord[]>([]);
