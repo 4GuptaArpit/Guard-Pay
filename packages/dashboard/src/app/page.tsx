@@ -411,8 +411,8 @@ export default function Dashboard() {
       {
         field: "timestamp",
         headerName: "Time",
-        width: 105,
-        minWidth: 95,
+        width: 95,
+        minWidth: 85,
         valueFormatter: (p) =>
           p.value ? new Date(p.value).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }) : "",
         cellClass: "font-mono font-bold text-amber-300 text-xs flex items-center",
@@ -420,13 +420,13 @@ export default function Dashboard() {
       {
         field: "agentName",
         headerName: "Autonomous Agent",
-        flex: 1.4,
-        minWidth: 190,
+        flex: 1.2,
+        minWidth: 160,
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => {
           const isClaude = p.data?.model.includes("claude");
           const isGemini = p.data?.model.includes("gemini");
           return (
-            <div className="flex items-center gap-2.5 py-1 h-full overflow-hidden">
+            <div className="flex items-center gap-2 py-1 h-full overflow-hidden">
               <div
                 className={`relative shrink-0 flex items-center justify-center w-7 h-7 rounded-lg font-mono text-xs font-black border transition ${
                   isClaude
@@ -453,8 +453,8 @@ export default function Dashboard() {
       {
         field: "merchantName",
         headerName: "Merchant & Domain",
-        flex: 1.2,
-        minWidth: 165,
+        flex: 1.1,
+        minWidth: 145,
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => (
           <div className="flex flex-col justify-center leading-tight py-1 h-full overflow-hidden">
             <span className="text-white text-xs font-bold truncate">{p.data?.merchantName}</span>
@@ -468,8 +468,8 @@ export default function Dashboard() {
       {
         field: "amount",
         headerName: "Amount",
-        width: 105,
-        minWidth: 95,
+        width: 95,
+        minWidth: 85,
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => (
           <div className="flex items-center font-mono font-black text-emerald-300 text-xs h-full">
             <DollarSign className="w-3.5 h-3.5 text-emerald-400 mr-0.5 shrink-0" />
@@ -480,14 +480,14 @@ export default function Dashboard() {
       {
         field: "decision",
         headerName: "Verdict",
-        width: 130,
-        minWidth: 120,
+        width: 120,
+        minWidth: 110,
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => {
           const isApproved = p.value === "APPROVED";
           return (
             <div className="flex items-center py-1 h-full">
               <span
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-black tracking-wider uppercase border ${
+                className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[10px] font-black tracking-wider uppercase border ${
                   isApproved
                     ? "bg-emerald-950/80 text-emerald-300 border-emerald-400 shadow-[0_0_12px_rgba(0,230,153,0.4)]"
                     : "bg-red-950/80 text-red-300 border-red-500 shadow-[0_0_12px_rgba(255,59,48,0.4)]"
@@ -503,18 +503,18 @@ export default function Dashboard() {
       {
         field: "riskScore",
         headerName: "Risk",
-        width: 110,
-        minWidth: 100,
+        width: 95,
+        minWidth: 85,
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => {
           const score = p.value || 0;
           const barColor = score < 30 ? "bg-emerald-400" : score < 70 ? "bg-amber-400" : "bg-red-500";
           const textColor = score < 30 ? "text-emerald-300" : score < 70 ? "text-amber-300" : "text-red-300";
           return (
-            <div className="flex items-center gap-2 py-1 h-full">
-              <div className="w-10 h-2 bg-slate-900 rounded-full overflow-hidden p-[1px] border border-white/10 shrink-0">
+            <div className="flex items-center gap-1.5 py-1 h-full">
+              <div className="w-8 h-2 bg-slate-900 rounded-full overflow-hidden p-[1px] border border-white/10 shrink-0">
                 <div className={`h-full ${barColor} rounded-full transition-all duration-500`} style={{ width: `${score}%` }} />
               </div>
-              <span className={`font-mono text-xs font-bold ${textColor}`}>{score}/100</span>
+              <span className={`font-mono text-[11px] font-bold ${textColor}`}>{score}/100</span>
             </div>
           );
         },
@@ -522,11 +522,11 @@ export default function Dashboard() {
       {
         field: "paypalOrderId",
         headerName: "PayPal Settlement",
-        flex: 1.1,
-        minWidth: 155,
+        flex: 1.0,
+        minWidth: 140,
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => (
           <div className="flex items-center h-full overflow-hidden">
-            <span className="text-[11px] font-mono font-bold text-amber-200 bg-amber-950/60 px-2.5 py-0.5 rounded-lg border border-amber-500/50 shadow-[0_0_8px_rgba(255,179,0,0.2)] truncate">
+            <span className="text-[10px] font-mono font-bold text-amber-200 bg-amber-950/60 px-2 py-0.5 rounded-lg border border-amber-500/50 shadow-[0_0_8px_rgba(255,179,0,0.2)] truncate">
               {p.value || "HOLD / NONE"}
             </span>
           </div>
@@ -534,10 +534,10 @@ export default function Dashboard() {
       },
       {
         headerName: "Trace",
-        width: 85,
-        minWidth: 75,
+        width: 90,
+        minWidth: 85,
         cellRenderer: (p: ICellRendererParams<TransactionRecord>) => (
-          <div className="flex items-center h-full">
+          <div className="flex items-center h-full pr-1">
             <button
               onClick={() => {
                 playAnalogSound("CLICK");
@@ -1187,6 +1187,12 @@ export default function Dashboard() {
                   rowHeight={54}
                   suppressHorizontalScroll={true}
                   defaultColDef={{ sortable: true, filter: true, resizable: true }}
+                  onGridReady={(params) => {
+                    params.api.sizeColumnsToFit();
+                  }}
+                  onGridSizeChanged={(params) => {
+                    params.api.sizeColumnsToFit();
+                  }}
                 />
               </div>
             </section>
