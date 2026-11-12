@@ -132,6 +132,15 @@ export default function Dashboard() {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
+  // Auto-dismiss alert notification banner after 5 seconds
+  useEffect(() => {
+    if (!recentAlert) return;
+    const timer = setTimeout(() => {
+      setRecentAlert(null);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [recentAlert]);
+
   // Dynamo Kitchen Analog Synthesizer State
   const [activeAgentIndex, setActiveAgentIndex] = useState(0);
   const [dialSensitivity, setDialSensitivity] = useState(72);
