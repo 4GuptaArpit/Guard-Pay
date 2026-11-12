@@ -502,14 +502,32 @@ async function start() {
     return { success: true, invoice: newInvoice };
   });
 
-  // Dispute & AI Arbitration Simulator Endpoint
+  // Dispute & AI Arbitration Simulator Endpoint (Supports both :invoiceId path param and /dispute body)
+  app.post<{
+    Params: { id: string };
+    Body: { disputeReason?: string; reason?: string };
+  }>('/api/invoices/:id/dispute', async (req) => {
+    const invoiceId = req.params.id;
+    const reason = req.body.disputeReason || req.body.reason || "Vendor model inference SLA breach";
+    const inv = invoicesList.find((i) => i.id === invoiceId);
+    if (!inv) throw new Error('Invoice not found');
+
+    inv.status = 'REFUNDED';
+    inv.arbitrationNotes = `GuardPay AI Mediator reviewed contractor deliverables against SOW. Client claim: "${reason}". Deliverables were verified 35% incomplete. PayPal Dispute resolved: 100% refund initiated to client account.`;
+
+    broadcast('INVOICE_UPDATED', inv);
+    return { success: true, invoice: inv };
+  });
+
   app.post<{
     Body: {
       invoiceId: string;
-      reason: string;
+      reason?: string;
+      disputeReason?: string;
     };
   }>('/api/invoices/dispute', async (req) => {
-    const { invoiceId, reason } = req.body;
+    const { invoiceId } = req.body;
+    const reason = req.body.disputeReason || req.body.reason || "Vendor model inference SLA breach";
     const inv = invoicesList.find((i) => i.id === invoiceId);
     if (!inv) throw new Error('Invoice not found');
 
