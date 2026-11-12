@@ -119,6 +119,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 const WS_URL = API_BASE.replace("http", "ws") + "/ws";
 
 export default function Dashboard() {
+  const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<"TELEMETRY" | "STREAM" | "NEGOTIATION" | "POLICIES" | "INVOICES">("TELEMETRY");
   const [transactions, setTransactions] = useState<TransactionRecord[]>([]);
   const [agents, setAgents] = useState<AgentPolicy[]>([]);
@@ -131,6 +132,10 @@ export default function Dashboard() {
   const [isSimulating, setIsSimulating] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Auto-dismiss alert notification banner after 5 seconds
   useEffect(() => {
@@ -643,6 +648,17 @@ export default function Dashboard() {
     allowedMerchantCategories: ["compute", "cloud", "api", "software"],
     allowedDomains: ["anthropic.com", "github.com", "render.com"],
   };
+
+  if (!mounted) {
+    return (
+      <div className="relative min-h-screen analog-mesh flex items-center justify-center text-slate-400">
+        <div className="flex items-center gap-3 font-mono text-xs">
+          <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
+          INITIALIZING GUARDPAY HARDWARE SYNTHESIZER...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-screen analog-mesh text-slate-100 selection:bg-amber-400 selection:text-black overflow-x-hidden">
