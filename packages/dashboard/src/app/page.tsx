@@ -115,8 +115,9 @@ interface NegotiationStep {
   timestamp: string;
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
-const WS_URL = API_BASE.replace("http", "ws") + "/ws";
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+const API_BASE = rawApiUrl.startsWith("http") ? rawApiUrl : `https://${rawApiUrl}`;
+const WS_URL = API_BASE.replace(/^http/, "ws") + "/ws";
 
 export default function Dashboard() {
   const [mounted, setMounted] = useState(false);
