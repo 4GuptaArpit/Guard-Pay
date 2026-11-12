@@ -203,6 +203,18 @@ export default function Dashboard() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
+  // Prevent background body scroll when drawer/modal is open
+  useEffect(() => {
+    if (selectedTx) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedTx]);
+
   const fetchData = async () => {
     try {
       const [txRes, agentRes, invRes] = await Promise.all([
@@ -1531,13 +1543,16 @@ export default function Dashboard() {
             playAnalogSound("CLICK");
             setSelectedTx(null);
           }}
-          className="fixed inset-0 bg-black/85 backdrop-blur-xl flex justify-end z-50 transition-opacity overflow-hidden"
+          onWheel={(e) => e.stopPropagation()}
+          className="fixed inset-0 bg-black/85 backdrop-blur-xl flex justify-end z-50 transition-opacity overscroll-contain"
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="bg-[#0C1211] border-l border-white/10 w-full max-w-xl h-screen max-h-screen p-5 flex flex-col justify-between shadow-2xl overflow-hidden no-scrollbar"
+            onWheel={(e) => e.stopPropagation()}
+            className="bg-[#0C1211] border-l border-white/10 w-full max-w-xl h-full p-5 flex flex-col justify-between shadow-2xl overflow-y-auto overscroll-contain no-scrollbar"
+            style={{ maxHeight: "100vh" }}
           >
-            <div className="overflow-hidden no-scrollbar">
+            <div>
               <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
                 <div className="flex items-center gap-2.5">
                   <Code2 className="w-5 h-5 text-amber-400" />
